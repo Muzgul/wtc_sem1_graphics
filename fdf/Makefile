@@ -1,6 +1,6 @@
 NAME = fdf_run
 FLAGS = gcc -Wall -Werror -Wextra
-SOURCES = main.c read_and_convert.c
+SOURCES = main.c read_and_convert.c window.c translate_and_draw.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
