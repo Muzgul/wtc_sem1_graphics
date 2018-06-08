@@ -59,3 +59,15 @@ int     row_count(char **array)
         i++;
     return (i);
 }
+
+int     row_length(char **array)
+{
+    int i;
+
+    if (array == NULL || *array == NULL)
+        return (0);
+    i = 0;
+    while (array[0][i] != '\0')
+        i++;
+    return (i);
+}
