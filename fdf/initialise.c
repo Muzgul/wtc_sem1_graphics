@@ -17,9 +17,7 @@ void    initialise_mlx(mlx_ctrl **my_mlx)
 
 void    initialise_map(mlx_ctrl *my_mlx, int fd)
 {
-    my_mlx->map = read_to_array(fd);
-    my_mlx->map_h = row_count(my_mlx->map);
-    my_mlx->map_w = row_length(my_mlx->map);
+    read_save(fd, my_mlx);
 }
 
 void    run_loop(mlx_ctrl *my_mlx)

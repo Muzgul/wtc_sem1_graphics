@@ -1,5 +1,24 @@
 #include "header.h"
 
+void    read_save(int fd, mlx_ctrl *my_mlx)
+{
+    int     **int_array;
+    int     i;
+    char    **raw_data;
+
+    raw_data = read_to_array(fd);
+    i = 0;
+    int_array = (int **)malloc(sizeof(int *) * row_count((void **)raw_data));
+    while (raw_data[i] != NULL)
+    {
+        int_array[i] = convert_row(raw_data[i]);
+        i++;
+    }
+    my_mlx->map = int_array;
+    my_mlx->map_w = split_and_count(*raw_data, ' ');
+    my_mlx->map_h = row_count((void **)raw_data);
+}
+
 char     **read_to_array(int fd)
 {
     char    *line;
@@ -21,7 +40,7 @@ char    **add_to_array(char **array, char *row)
     int array_length;
     char **new_array;
 
-    array_length = row_count(array);
+    array_length = row_count((void **)array);
     new_array = (char **)malloc(sizeof(char *) * (array_length + 2));//Add one for new row and one for NULL placeholder
     i = 0;
     while (i < array_length)
@@ -35,20 +54,27 @@ char    **add_to_array(char **array, char *row)
     return (new_array);
 }
 
-void    print_array(char **array)
+void    print_array(mlx_ctrl *my_mlx)
 {
     int i;
+    int j;
 
     i = 0;
-    while (array[i] != NULL)
+    while (i < my_mlx->map_h)
     {
-        ft_putendl(array[i]);
+        j = 0;
+        while (j < my_mlx->map_w)
+        {
+            ft_putnbr(my_mlx->map[i][j]);
+            j++;
+        }
+        ft_putchar('\n');
         i++;
     }
 }
 
 //Count number of rows; If not initialised then return 0;
-int     row_count(char **array)
+int     row_count(void  **array)
 {
     int i;
 
@@ -60,14 +86,31 @@ int     row_count(char **array)
     return (i);
 }
 
-int     row_length(char **array)
+int     split_and_count(char *line, char c)
 {
     int i;
+    char **temp;
 
-    if (array == NULL || *array == NULL)
-        return (0);
-    i = 0;
-    while (array[0][i] != '\0')
-        i++;
+    temp = ft_strsplit(line, c);
+    i = row_count((void **)temp);
+    free(temp);
     return (i);
+}
+
+int     *convert_row(char *row)
+{
+    int i;
+    char **temp;
+    int *int_row;
+
+    i = 0;
+    temp = ft_strsplit(row, ' ');
+    int_row = (int *)malloc(sizeof(int) * row_count((void **)temp));
+    while (temp[i] != NULL)
+    {
+        int_row[i] = ft_atoi(temp[i]);
+        i++;
+    }
+    free(temp);
+    return (int_row);
 }

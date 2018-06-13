@@ -10,7 +10,7 @@ typedef struct		mlx_control
 {
 	void    *mlx_ptr;
     void    *mlx_win;
-    char    **map;
+    int     **map;
     int     map_w;
     int     map_h;
     int     zoom;
@@ -22,14 +22,18 @@ typedef struct		mlx_control
 
 //Function Declerations
 
+void    read_save(int fd, mlx_ctrl *my_mlx);
 char    **read_to_array(int fd);
 char    **add_to_array(char **array, char *row);
-int     row_count(char **array);
-int     row_length(char **array);
-void    print_array(char **array);
+int     row_count(void **array);
+int     split_and_count(char *line, char c);
+int     *convert_row(char *row);
+void    print_array(mlx_ctrl *my_mlx);
 void    draw_array(mlx_ctrl *my_mlx);
 void    draw_row(mlx_ctrl *my_mlx, int row);
 void    draw_point(mlx_ctrl *my_mlx, int row, int point);
+int     calculate_x(mlx_ctrl *my_mlx, int row, int point);
+int     calculate_y(mlx_ctrl *my_mlx, int row, int point);
 void    clear(mlx_ctrl *my_mlx);
 
 void    new_window(mlx_ctrl *my_mlx, int res_x, int res_y, char *title);

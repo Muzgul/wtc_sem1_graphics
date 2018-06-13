@@ -15,7 +15,7 @@ int main(int argc, char **argv)
         ft_putendl("...");
         fd = open(argv[1], O_RDONLY);
         initialise_map(my_mlx, fd);     
-        // print_array(my_mlx->map);
+        print_array(my_mlx);
         run_loop(my_mlx);
         mlx_loop(my_mlx->mlx_ptr);
     }
