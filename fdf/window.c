@@ -44,7 +44,9 @@ int mouse_hook(int button,int x,int y,void *param)
 
 int expose_hook(mlx_ctrl *my_mlx)
 {
-    mlx_clear_window(my_mlx->mlx_ptr, my_mlx->mlx_win);
-    draw_array(my_mlx);   
+    if (my_mlx)
+        return (1);
+    //mlx_clear_window(my_mlx->mlx_ptr, my_mlx->mlx_win);
+    //draw_array(my_mlx);   
     return (0);
 }

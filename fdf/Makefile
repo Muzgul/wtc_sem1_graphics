@@ -1,6 +1,6 @@
 NAME = fdf_run
 FLAGS = gcc -Wall -Werror -Wextra
-SOURCES = main.c read_and_convert.c window.c translate_and_draw.c initialise.c
+SOURCES = main.c read_and_convert.c window.c translate_and_draw.c initialise.c draw_point.c draw_line.c 
 
 OBJECTS = $(SOURCES:.c=.o)
 

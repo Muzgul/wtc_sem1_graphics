@@ -45,5 +45,10 @@ void    run_loop(mlx_ctrl *my_mlx);
 void    initialise_mlx(mlx_ctrl **my_mlx);
 void    initialise_map(mlx_ctrl *my_mlx, int fd);
 
+//NEW
+
+int     temp_draw_point(mlx_ctrl *my_mlx, int *point);
+int     *make_point(int x, int y, int z);
+int     temp_draw_line(mlx_ctrl *my_mlx, int *p1, int *p2);
 
 #endif
