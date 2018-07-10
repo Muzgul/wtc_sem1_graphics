@@ -15,6 +15,9 @@
 # include "libft/libft.h"
 # include "minilibx/mlx.h"
 
+//DONT NEED
+#include <stdio.h>
+
 typedef struct      s_vector
 {
 	int				null;
@@ -26,6 +29,7 @@ typedef struct      s_vector
 
 //Input
 int     	row_count(void  **array);
+int			vcol_count(ft_vector **array);
 char    	**add_to_array(char **array, char *row);
 char    	**read_to_array(int fd);
 int     	split_and_count(char *line, char c);
@@ -54,5 +58,6 @@ ft_vector   scale_by(ft_vector v, float size);
 //Draw
 int			get_color(int z_value);
 void		draw_vector(ft_vector v, void *mlx_ptr, void *mlx_win);
+int			draw_line(ft_vector v1, ft_vector v2, void *mlx_ptr, void *mlx_win);
 
 #endif

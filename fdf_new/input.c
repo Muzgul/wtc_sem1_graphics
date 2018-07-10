@@ -24,6 +24,28 @@ int     row_count(void  **array)
 	return (i);
 }
 
+int		vcol_count(ft_vector **array)
+{
+	int i;
+	int j;
+	int len;
+
+	i = 0;
+	len = 0;
+	while (array[i] != NULL)
+	{
+		j = 0;
+		while (array[i][j].null == 0)
+		{
+			if (j > len)
+				len = j;
+			j++;
+		}
+		i++;
+	}
+	return (len);
+}
+
 //Take current row count, add1, free input array and return new one;
 char    **add_to_array(char **array, char *row)
 {

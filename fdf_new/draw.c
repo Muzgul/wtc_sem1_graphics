@@ -31,7 +31,96 @@ int			get_color(int z_value)
 	return (16777215);
 }
 
+int			draw_horiz(ft_vector v1, ft_vector v2, void *mlx_ptr, void *mlx_win)
+{
+	ft_putstr("draw_horiz ");
+	ft_putnbr(v1.x);
+	ft_putstr("->");
+	ft_putnbr(v2.x);
+	float	x;
+	float	y;
+	int		dir;
+
+	x = v1.x;
+	y = v1.y;
+	dir = -1;
+	if (x < v2.x)
+		dir = 1;
+	while (x != v2.x)
+	{
+		mlx_pixel_put(mlx_ptr, mlx_win, x, y, v1.c);
+		x += dir;
+	}
+	ft_putendl(" ...finished");
+	return (0);
+}
+
+int			draw_vert(ft_vector v1, ft_vector v2, void *mlx_ptr, void *mlx_win)
+{
+	ft_putstr("draw_vert ");
+	ft_putnbr(v1.y);
+	ft_putstr("->");
+	ft_putnbr(v2.y);
+	float	x;
+	float	y;
+	int		dir;
+
+	x = v1.x;
+	y = v1.y;
+	dir = -1;
+	if (y < v2.y)
+		dir = 1;
+	while (y != v2.y)
+	{
+		mlx_pixel_put(mlx_ptr, mlx_win, x, y, v1.c);
+		y += dir;
+	}
+	ft_putendl(" ...finished");
+	return (0);
+}
+
+int			draw_line(ft_vector v1, ft_vector v2, void *mlx_ptr, void *mlx_win)
+{
+	float	m;
+	float	c;
+	float	x;
+	float	y;
+	int		xdif;
+	int		ydif;
+
+	if (v1.x == v2.x)
+		return (draw_vert(v1, v2, mlx_ptr, mlx_win));
+	if (v1.y == v2.y)
+		return (draw_horiz(v1, v2, mlx_ptr, mlx_win));
+	m = (v2.y - v1.y)/(v2.x - v1.x);
+	c = v1.y - (v1.x * m);
+	x = v1.x;
+	y = m * x + c;
+	xdif = -1;
+	if ((v2.x - v1.x) > 0)
+		xdif = 1;
+	ydif = -1;
+	if ((v2.y - v1.y) > 0)
+		ydif = 1;
+	while (x != v2.x && y != v2.y)
+	{
+		mlx_pixel_put(mlx_ptr, mlx_win, x, y, v1.c);
+		if (m > 1)
+		{
+			y += ydif;
+			x = (y - c)/m;
+		}
+		else
+		{
+			x += xdif;
+			y = m * x + c;
+		}
+	}
+	printf("y=%fx + %f\n", m, c);	
+	return (0);
+}
+
 void		draw_vector(ft_vector v, void *mlx_ptr, void *mlx_win)
 {
-	mlx_pixel_put(mlx_ptr, mlx_win, v.x + 500, v.y + 500, v.c);
+	mlx_pixel_put(mlx_ptr, mlx_win, v.x, v.y, v.c);
 }
