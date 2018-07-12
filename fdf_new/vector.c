@@ -20,6 +20,7 @@ ft_vector   new_vector(float x, float y, float z, int null)
     new.y = y;
     new.z = z;
 	new.c = get_color(z);
+	new.w = 1;
 	new.null = null;
     return (new);
 }

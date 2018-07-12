@@ -14,6 +14,7 @@
 # define FDF_H
 # include "libft/libft.h"
 # include "minilibx/mlx.h"
+# include <math.h>
 
 //DONT NEED
 #include <stdio.h>
@@ -25,7 +26,16 @@ typedef struct      s_vector
 	float			x;
 	float			y;
 	float			z;
+	float			w;
 }					ft_vector;
+
+typedef struct		s_matrix
+{
+	float			a[4];
+	float			b[4];
+	float			c[4];
+	float			d[4];
+}					ft_mat3;
 
 //Input
 int     	row_count(void  **array);
@@ -50,10 +60,14 @@ void    	shift_z(ft_vector **grid, float diff);
 
 //Translate
 void    	apply_transform(ft_vector **grid, ft_vector (*f)(ft_vector, float), float value);
+void		apply_matrix(ft_vector **grid, ft_mat3 m);
+ft_vector	matrix_vector(ft_vector v, ft_mat3 m);
 
 //Perspective
 ft_vector   to_negz(ft_vector v, float neg);
 ft_vector   scale_by(ft_vector v, float size);
+ft_vector   for_vector(ft_vector v);
+void    	apply_perspective(ft_vector **grid);
 
 //Draw
 int			get_color(int z_value);

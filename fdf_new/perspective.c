@@ -39,3 +39,29 @@ ft_vector   scale_by(ft_vector v, float size)
     n.null = v.null;
     return (n);
 }
+
+ft_vector   for_vector(ft_vector v)
+{
+    v.x /= v.w;
+    v.y /= v.w;
+    v.z /= v.w;
+    return (v);
+}
+
+void    apply_perspective(ft_vector **grid)
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (grid[i] != NULL)
+    {
+        j = 0;
+        while (grid[i][j].null == 0)
+        {
+            grid[i][j] = for_vector(grid[i][j]);
+            j++;
+        }
+        i++;
+    }    
+}

@@ -19,7 +19,8 @@ void	draw_to_all(ft_vector **grid, ft_vector v, void *mlx_ptr, void *mlx_win)
 	int j;
 	int space;
 
-	space = 20;
+	space = grid[0][0].x - grid[0][1].x;
+	space *= 1.5;
 	i = 0;
 	while (grid[i] != NULL)
 	{
@@ -54,13 +55,39 @@ int     main(int argc, char **argv)
 	strarr = read_to_array(fd);
 	print_grid(strarr);
 	grid = vector_grid(strarr);
-	shift_z(grid, -20);
-	print_vgrid(grid);
 	shift_x(grid, (vcol_count(grid) / 2) * -1);
 	shift_y(grid, (row_count((void **)grid) / 2) * -1);
+	shift_z(grid, -15);
+	
 	print_vgrid(grid);
-	apply_transform(grid, scale_by, 10);
+	ft_putendl("Perspectifying...");
+
+	ft_mat3 temp;
+	temp.a[0] = 1/((16/9) * tan(90/2));
+	temp.a[1] = 0;
+	temp.a[2] = 0;
+	temp.a[3] = 0;
+	temp.b[0] = 0;
+	temp.b[1] = 1/tan(90/2);
+	temp.b[2] = 0;
+	temp.b[3] = 0;
+	temp.c[0] = 0;
+	temp.c[1] = 0;
+	temp.c[2] = (-1 + -40)/(-1 - (-40));
+	temp.c[3] = (2 * -1 * -40)/(-1 - (-40));
+	temp.d[0] = 0;
+	temp.d[1] = 0;
+	temp.d[2] = -1;
+	temp.d[3] = 0;
+	
+	apply_matrix(grid, temp);
+	apply_perspective(grid);
+	apply_transform(grid, scale_by, 100);
 	print_vgrid(grid);
+	// print_vgrid(grid);
+	
+	// print_vgrid(grid);
+	// print_vgrid(grid);
 	shift_x(grid, 800);
 	shift_y(grid, 450);
 	// apply_transform(grid, to_negz, -1);
@@ -90,7 +117,7 @@ int     main(int argc, char **argv)
 		}
 		i++;
 	}
-	// draw_to_all(grid, grid[8][8], mlx_ptr, mlx_win);
+	// draw_to_all(grid, temp, mlx_ptr, mlx_win);
 	mlx_loop(mlx_ptr);
 	return (0);
 }
