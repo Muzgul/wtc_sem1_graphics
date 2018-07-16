@@ -13,6 +13,26 @@
 #include "fdf.h"
 #include <fcntl.h>
 
+void	draw_grid(ft_vector **grid, void *mlx_ptr, void *mlx_win)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (grid[i] != NULL)
+	{
+		j = 0;
+		while (grid[i][j].null == 0)
+		{
+			draw_vector(grid[i][j], mlx_ptr, mlx_win);
+			// if (grid[i][j].z == grid[3][3].z)
+				// draw_to_all(grid, grid[i][j], mlx_ptr, mlx_win);
+			j++;
+		}
+		i++;
+	}
+}
+
 void	draw_to_all(ft_vector **grid, ft_vector v, void *mlx_ptr, void *mlx_win)
 {
 	int i;
@@ -101,22 +121,7 @@ int     main(int argc, char **argv)
 	mlx_key_hook(mlx_win, key_hook, NULL);
 	
 
-	int i;
-	int j;
 
-	i = 0;
-	while (grid[i] != NULL)
-	{
-		j = 0;
-		while (grid[i][j].null == 0)
-		{
-			draw_vector(grid[i][j], mlx_ptr, mlx_win);
-			// if (grid[i][j].z == grid[3][3].z)
-				draw_to_all(grid, grid[i][j], mlx_ptr, mlx_win);
-			j++;
-		}
-		i++;
-	}
 	// draw_to_all(grid, temp, mlx_ptr, mlx_win);
 	mlx_loop(mlx_ptr);
 	return (0);
