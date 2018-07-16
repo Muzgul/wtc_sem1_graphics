@@ -35,7 +35,7 @@ typedef struct		s_matrix
 	float			b[4];
 	float			c[4];
 	float			d[4];
-}					ft_mat3;
+}					ft_mat4;
 
 //Input
 int     	row_count(void  **array);
@@ -60,8 +60,8 @@ void    	shift_z(ft_vector **grid, float diff);
 
 //Translate
 void    	apply_transform(ft_vector **grid, ft_vector (*f)(ft_vector, float), float value);
-void		apply_matrix(ft_vector **grid, ft_mat3 m);
-ft_vector	matrix_vector(ft_vector v, ft_mat3 m);
+void		apply_matrix(ft_vector **grid, ft_mat4 m);
+ft_vector	matrix_vector(ft_vector v, ft_mat4 m);
 
 //Perspective
 ft_vector   to_negz(ft_vector v, float neg);
@@ -73,5 +73,10 @@ void    	apply_perspective(ft_vector **grid);
 int			get_color(int z_value);
 void		draw_vector(ft_vector v, void *mlx_ptr, void *mlx_win);
 int			draw_line(ft_vector v1, ft_vector v2, void *mlx_ptr, void *mlx_win);
+
+//Matrix
+ft_mat4     new_matrix();
+ft_mat4     add_perspective(ft_mat4 old, float near, float far, float fov, float aspect);
+ft_mat4     add_zrotate(ft_mat4 old, float angle);
 
 #endif

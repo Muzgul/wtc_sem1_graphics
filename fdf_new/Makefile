@@ -12,7 +12,7 @@
 
 NAME = execfdf
 FLAGS = gcc -Wall -Werror -Wextra 
-SOURCES = main.c input.c vector.c output.c linear.c translate.c perspective.c draw.c 
+SOURCES = main.c input.c vector.c output.c linear.c translate.c perspective.c draw.c matrix.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

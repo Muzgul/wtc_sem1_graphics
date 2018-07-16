@@ -30,7 +30,7 @@ void		apply_transform(ft_vector **grid, ft_vector (*f)(ft_vector, float), float 
 	}
 }
 
-ft_vector	matrix_vector(ft_vector v, ft_mat3 m)
+ft_vector	matrix_vector(ft_vector v, ft_mat4 m)
 {
 	v.x = v.x * m.a[0] + v.y * m.a[1] + v.z * m.a[2] + v.w * m.a[3];
 	v.y = v.x * m.b[0] + v.y * m.b[1] + v.z * m.b[2] + v.w * m.b[3];
@@ -39,7 +39,7 @@ ft_vector	matrix_vector(ft_vector v, ft_mat3 m)
 	return (v);
 }
 
-void		apply_matrix(ft_vector **grid, ft_mat3 m)
+void		apply_matrix(ft_vector **grid, ft_mat4 m)
 {
 	int i;
 	int j;
