@@ -77,6 +77,8 @@ int			draw_line(ft_vector v1, ft_vector v2, void *mlx_ptr, void *mlx_win);
 //Matrix
 ft_mat4     new_matrix();
 ft_mat4     add_perspective(ft_mat4 old, float near, float far, float fov, float aspect);
+ft_mat4     add_xrotate(ft_mat4 old, float angle);
+ft_mat4     add_yrotate(ft_mat4 old, float angle);
 ft_mat4     add_zrotate(ft_mat4 old, float angle);
 
 #endif

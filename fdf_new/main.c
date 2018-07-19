@@ -77,7 +77,7 @@ int     main(int argc, char **argv)
 	grid = vector_grid(strarr);
 	shift_x(grid, (vcol_count(grid) / 2) * -1);
 	shift_y(grid, (row_count((void **)grid) / 2) * -1);
-	shift_z(grid, -11);
+	shift_z(grid, -10);
 	
 	print_vgrid(grid);
 	ft_putendl("Perspectifying...");
@@ -85,22 +85,27 @@ int     main(int argc, char **argv)
 	ft_mat4 temp;
 
 	// apply_transform(grid, scale_by, 10);
+
+// temp = new_matrix();
+// 	temp = add_zrotate(temp, 45);
+// 	apply_matrix(grid, temp);
+
+
 	temp = new_matrix();
-	// temp = add_zrotate(temp, 45);
+	// temp = add_perspective(temp, -1, -20, 90, 16/9);
 	// apply_matrix(grid, temp);
-	// temp = new_matrix();
-	temp = add_perspective(temp, -1, -10, 45, 16/9);
-	apply_matrix(grid, temp);
-	apply_perspective(grid);
-	temp = new_matrix();
-	temp.a[0] = 160;
-	temp.b[1] = 90;
-	apply_matrix(grid, temp);
-	shift_x(grid, 800);
-	shift_y(grid, 450);
-	print_vgrid(grid);
-	// print_vgrid(grid);
+
 	
+	// apply_perspective(grid);
+	
+	apply_perspective(grid);
+
+	// temp = new_matrix();
+	// temp.a[0] = 1600;
+	// temp.b[1] = 900;
+	// apply_matrix(grid, temp);
+	
+	print_vgrid(grid);
 	// print_vgrid(grid);
 	// print_vgrid(grid);
 	// apply_transform(grid, to_negz, -1);
@@ -113,6 +118,9 @@ int     main(int argc, char **argv)
 	mlx_win = mlx_new_window(mlx_ptr, 1600, 900, "Hello World!");
 	mlx_key_hook(mlx_win, key_hook, NULL);
 	
+	// shift_x(grid, 800);
+	// shift_y(grid, 450);
+	// print_vgrid(grid);
 	draw_grid(grid, mlx_ptr, mlx_win);
 
 	// draw_to_all(grid, temp, mlx_ptr, mlx_win);

@@ -34,6 +34,8 @@ void		print_vector(ft_vector v)
 		ft_putnbr(v.y);
 		ft_putstr(" , ");
 		ft_putnbr(v.z);
+		ft_putstr(" , ");
+		ft_putnbr(v.w);
 	}
 	else
 		ft_putstr("(null)");
