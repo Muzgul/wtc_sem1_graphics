@@ -37,45 +37,46 @@ ft_mat4     new_matrix()
 
 ft_mat4     add_perspective(ft_mat4 old, float near, float far, float fov, float aspect)
 {
-    fov /= 2;
-    old.a[0] += 1/((aspect) * tan(fov));
-	old.b[1] += 1/tan(fov);
-	old.c[2] += (near + far)/(near - far);
-	old.c[3] += (2 * near * far)/(near - far);
-	old.d[2] += -1;
+    // fov /= 2;
+    aspect = 1;
+    old.a[0] = 1/tan((fov/2) * (M_PI / 180)); //1/((aspect) * tan(fov));
+	old.b[1] = 1/tan((fov/2) * (M_PI / 180)); //1/tan(fov);
+	old.c[2] = (far / (far - near)) * -1;//(near + far)/(near - far);
+	old.c[3] = ((far * near) / (far - near)) * -1;//(2 * near * far)/(near - far);
+	old.d[2] = -1;
     return (old);
 }
 
 ft_mat4     add_zrotate(ft_mat4 old, float angle)
 {
-    old.a[0] += cos(angle);
-    old.a[1] += -1 * (sin(angle));
-    old.b[0] += sin(angle);
-    old.b[1] += cos(angle);
-    old.c[2] += 1;
-    old.d[3] += 1;
+    old.a[0] = cos(angle);
+    old.a[1] = -1 * (sin(angle));
+    old.b[0] = sin(angle);
+    old.b[1] = cos(angle);
+    old.c[2] = 1;
+    old.d[3] = 1;
     return (old);
 }
 
 ft_mat4     add_xrotate(ft_mat4 old, float angle)
 {
-    old.a[0] += 1;
-    old.b[1] += cos(angle);
-    old.b[2] += -1 * (sin(angle));
-    old.c[1] += sin(angle);
-    old.c[2] += cos(angle);
-    old.d[3] += 1;
+    old.a[0] = 1;
+    old.b[1] = cos(angle);
+    old.b[2] = -1 * (sin(angle));
+    old.c[1] = sin(angle);
+    old.c[2] = cos(angle);
+    old.d[3] = 1;
     return (old);
 }
 
 ft_mat4     add_yrotate(ft_mat4 old, float angle)
 {
-    old.a[0] += cos(angle);
-    old.a[2] += sin(angle);
-    old.b[1] += 1;
-    old.c[0] += -1 * sin(angle);
-    old.c[2] += cos(angle);
-    old.d[3] += 1;
+    old.a[0] = cos(angle);
+    old.a[2] = sin(angle);
+    old.b[1] = 1;
+    old.c[0] = -1 * sin(angle);
+    old.c[2] = cos(angle);
+    old.d[3] = 1;
     return (old);
 }
 

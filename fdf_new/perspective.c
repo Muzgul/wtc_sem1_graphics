@@ -43,16 +43,16 @@ ft_vector   scale_by(ft_vector v, float size)
 
 ft_vector   for_vector(ft_vector v)
 {
-    // v.x /= v.w;
-    // v.y /= v.w;
-    // v.z /= v.w;
-    v.x /= -1 * v.z;
-    v.y /= -1 * v.z;
-    v.z /= -1 * v.z;
-    v.x = (1 + v.x)/2;
-    v.y = (1 + v.y)/2;
-    v.x *= 1600;
-    v.y *= 900;
+    v.x /= v.w;
+    v.y /= v.w;
+    v.z /= v.w;
+    // v.x /= -1 * v.z;
+    // v.y /= -1 * v.z;
+    // v.z /= -1 * v.z;
+    // v.x = (1 + v.x)/2;
+    // v.y = (1 + v.y)/2;
+    // v.x *= 1600;
+    // v.y *= 900;
     return (v);
 }
 
