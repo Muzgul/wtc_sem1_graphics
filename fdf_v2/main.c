@@ -25,6 +25,7 @@ int     main(int argc, char **argv)
 	strarr = read_to_array(fd);
 	print_grid(strarr);
 	mlx_obj = get_mlx_obj(strarr, 900, 1600, 90);
+	
 	mlx_key_hook(mlx_obj->mlx_win, key_hook, mlx_obj);
 
 	//ft_mat4 t = add_xrotate(90 * (M_PI/180));
@@ -32,6 +33,8 @@ int     main(int argc, char **argv)
 	draw_grid(mlx_obj);
 
 	// draw_to_all(grid, temp, mlx_ptr, mlx_win);
+	
 	mlx_loop(mlx_obj->mlx_ptr);
+
     return (0);
 }
