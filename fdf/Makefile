@@ -1,6 +1,18 @@
-NAME = fdf_run
-FLAGS = gcc -Wall -Werror -Wextra
-SOURCES = main.c read_and_convert.c window.c translate_and_draw.c initialise.c draw_point.c draw_line.c 
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: mmacdona <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2018/08/04 11:55:05 by mmacdona          #+#    #+#              #
+#    Updated: 2018/08/04 11:55:06 by mmacdona         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = execfdf
+FLAGS = gcc -Wall -Werror -Wextra 
+SOURCES = main.c keyhook.c init.c free.c draw_help.c perspective.c draw.c linear.c convert.c input.c mat4.c output.c t_mat4.c vector.c 
 
 OBJECTS = $(SOURCES:.c=.o)
 

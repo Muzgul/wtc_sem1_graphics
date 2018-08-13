@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmacdona <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/04 13:00:31 by mmacdona          #+#    #+#             */
-/*   Updated: 2018/08/04 13:00:32 by mmacdona         ###   ########.fr       */
+/*   Created: 2018/08/09 14:40:40 by mmacdona          #+#    #+#             */
+/*   Updated: 2018/08/09 14:40:42 by mmacdona         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int				main(int argc, char **argv)
+void	free_strarr(char **strarr)
 {
-	char		**strarr;
-	int			fd;
-	t_mlx_obj	*mlx_obj;
+	int i;
 
-	if (argc > 1)
+	i = 0;
+	while (strarr[i] != NULL)
 	{
-		fd = open(argv[1], O_RDONLY);
-		strarr = read_to_array(fd);
-		mlx_obj = get_mlx_obj(strarr, 1600, 900, 90, argv[1]);
-		free_strarr(strarr);
-		mlx_key_hook(mlx_obj->mlx_win, key_hook, mlx_obj);
-		draw_grid(mlx_obj);
-		mlx_loop(mlx_obj->mlx_ptr);
+		free(strarr[i]);
+		i++;
 	}
-	return (0);
+}
+
+void	free_grid(t_point **grid)
+{
+	int i;
+
+	i = 0;
+	while (grid[i] != NULL)
+	{
+		free(grid[i]);
+		i++;
+	}
 }

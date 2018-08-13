@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   perspective.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmacdona <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/04 13:00:31 by mmacdona          #+#    #+#             */
-/*   Updated: 2018/08/04 13:00:32 by mmacdona         ###   ########.fr       */
+/*   Created: 2018/08/04 14:31:15 by mmacdona          #+#    #+#             */
+/*   Updated: 2018/08/04 14:31:16 by mmacdona         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int				main(int argc, char **argv)
+t_mat4		perspective_mat(float near, float far, float fov)
 {
-	char		**strarr;
-	int			fd;
-	t_mlx_obj	*mlx_obj;
+	t_mat4	new;
 
-	if (argc > 1)
-	{
-		fd = open(argv[1], O_RDONLY);
-		strarr = read_to_array(fd);
-		mlx_obj = get_mlx_obj(strarr, 1600, 900, 90, argv[1]);
-		free_strarr(strarr);
-		mlx_key_hook(mlx_obj->mlx_win, key_hook, mlx_obj);
-		draw_grid(mlx_obj);
-		mlx_loop(mlx_obj->mlx_ptr);
-	}
-	return (0);
+	new = get_mat4();
+	new.a[0] = 1 / tan((fov / 2) * (M_PI / 180));
+	new.b[1] = 1 / tan((fov / 2) * (M_PI / 180));
+	new.c[2] = (far / (far - near)) * -1;
+	new.c[3] = ((far * near) / (far - near)) * -1;
+	new.d[2] = -1;
+	return (new);
 }
