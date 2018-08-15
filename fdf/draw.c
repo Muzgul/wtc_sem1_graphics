@@ -12,76 +12,36 @@
 
 #include "fdf.h"
 
-int				draw_horiz(t_point v1, t_point v2, t_mlx_img mlx_img)
+float			t_abs(float n)
 {
-	float		x;
-	float		y;
-	int			dir;
-
-	x = v1.calc.x;
-	y = v1.calc.y;
-	dir = -1;
-	if (x < v2.calc.x)
-		dir = 1;
-	while ((int)x != (int)v2.calc.x)
-	{
-		add_pixel(mlx_img, x, y, (v1.colour + v2.colour) / 2);
-		x += dir;
-	}
-	return (0);
+	if (n < 0)
+		n *= -1;
+	return (n);
 }
 
-int				draw_vert(t_point v1, t_point v2, t_mlx_img mlx_img)
+int				draw_line(t_point v1, t_point v2, t_mlx_img mlx_img)
 {
-	float		x;
-	float		y;
-	int			dir;
+	float	x;
+	float	y;
+	float	dx;
+	float	dy;
+	float	step;
 
+	dx = v2.calc.x - v1.calc.x;
+	dy = v2.calc.y - v1.calc.y;
+	step = t_abs(dy);
+	if (t_abs(dx) >= t_abs(dy))
+		step = t_abs(dx);
+	dx /= step;
+	dy /= step;
 	x = v1.calc.x;
 	y = v1.calc.y;
-	dir = -1;
-	if (y < v2.calc.y)
-		dir = 1;
-	while ((int)y != (int)v2.calc.y)
+	while ((int)step > 0)
 	{
-		add_pixel(mlx_img, x, y, (v1.colour + v2.colour) / 2);
-		y += dir;
-	}
-	return (0);
-}
-
-int				draw_formula(t_point v1, t_point v2, t_mlx_img mlx_img)
-{
-	float		m;
-	float		c;
-	float		x;
-	float		y;
-	int			xdif;
-	int			ydif;
-
-	m = (v2.calc.y - v1.calc.y) / (v2.calc.x - v1.calc.x);
-	c = v1.calc.y - (v1.calc.x * m);
-	x = v1.calc.x;
-	y = m * x + c;
-	xdif = -1;
-	if ((v2.calc.x - v1.calc.x) > 0)
-		xdif = 1;
-	ydif = -1;
-	if ((v2.calc.y - v1.calc.y) > 0)
-		ydif = 1;
-	while ((int)x != (int)v2.calc.x && (int)y != (int)v2.calc.y)
-	{
-		add_pixel(mlx_img, x, y, (v1.colour + v2.colour) / 2);
-		if (m > 1)
-		{
-			y += ydif;
-			x = (y - c) / m;
-		}
-		else
-		{
-			x += xdif;
-			y = m * x + c;
-		}
+		add_pixel(mlx_img, x, y, v1.colour);
+		x += dx;
+		y += dy;
+		step--;
 	}
 	return (0);
 }

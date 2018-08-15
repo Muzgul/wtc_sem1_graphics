@@ -64,12 +64,3 @@ void		draw_point(t_mlx_obj *o, int i, int j, t_mlx_img mlx_img)
 			draw_line(o->grid[i][j], o->grid[i][j - 1], mlx_img);
 	}
 }
-
-int			draw_line(t_point v1, t_point v2, t_mlx_img mlx_img)
-{
-	if (v1.calc.x == v2.calc.x)
-		return (draw_vert(v1, v2, mlx_img));
-	if (v1.calc.y == v2.calc.y)
-		return (draw_horiz(v1, v2, mlx_img));
-	return (draw_formula(v1, v2, mlx_img));
-}
