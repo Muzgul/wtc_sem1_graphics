@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   persp.c                                            :+:      :+:    :+:   */
+/*   cam.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmacdona <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/15 15:57:52 by mmacdona          #+#    #+#             */
-/*   Updated: 2018/08/15 15:57:53 by mmacdona         ###   ########.fr       */
+/*   Created: 2018/08/21 07:51:50 by mmacdona          #+#    #+#             */
+/*   Updated: 2018/08/21 07:51:52 by mmacdona         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-float		camera_dist(t_mlx_obj o, float fov)
+t_cam	rotate_cam(t_cam c, float angle)
 {
-	float dist;
+	t_mat2	m;
 
-	dist = (o.width/2) / (tan(fov / 2));
-	return (dist); 
+	m = mat2_rotate(angle);
+	c.dir = mat2_apply(c.dir, m);
+	return (c);
 }
 
-t_mat2		get_rotate(float angle)
+float	cam_plane(t_cam c, float fov)
 {
-	t_mat2 m;
+	t_vector	temp;
+	float		dist;
+	float		plane;
 
-	m.a[0] = cos(angle);
-	m.a[1] = -1 * (sin(angle));
-	m.b[0] = sin(angle);
-	m.b[1] = cos(angle);
-	return (m);
+	temp = init_vector(c.pos.x + c.dir.x, c.pos.y + c.dir.y);
+	dist = vect_dist(c.pos, temp);
+	plane = dist * tan(fov / 2);
+	return (plane);
 }

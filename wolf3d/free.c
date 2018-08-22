@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   persp.c                                            :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmacdona <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/15 15:57:52 by mmacdona          #+#    #+#             */
-/*   Updated: 2018/08/15 15:57:53 by mmacdona         ###   ########.fr       */
+/*   Created: 2018/08/16 14:50:02 by mmacdona          #+#    #+#             */
+/*   Updated: 2018/08/16 14:50:05 by mmacdona         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-float		camera_dist(t_mlx_obj o, float fov)
+void	free_arr(void **arr)
 {
-	float dist;
+	int i;
 
-	dist = (o.width/2) / (tan(fov / 2));
-	return (dist); 
+	i = 0;
+	while (arr[i] != NULL)
+	{
+		free(arr[i]);
+		i++;
+	}
+	if (arr != NULL)
+		free(arr);
 }
 
-t_mat2		get_rotate(float angle)
+void	free_grid(t_grid g)
 {
-	t_mat2 m;
+	int i;
 
-	m.a[0] = cos(angle);
-	m.a[1] = -1 * (sin(angle));
-	m.b[0] = sin(angle);
-	m.b[1] = cos(angle);
-	return (m);
+	i = 0;
+	while (i < g.h)
+	{
+		free(g.grid[i]);
+		i++;
+	}
+	free(g.grid);
 }

@@ -1,32 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   persp.c                                            :+:      :+:    :+:   */
+/*   vect.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmacdona <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/15 15:57:52 by mmacdona          #+#    #+#             */
-/*   Updated: 2018/08/15 15:57:53 by mmacdona         ###   ########.fr       */
+/*   Created: 2018/08/21 09:02:56 by mmacdona          #+#    #+#             */
+/*   Updated: 2018/08/21 09:02:57 by mmacdona         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-float		camera_dist(t_mlx_obj o, float fov)
+float		vect_dist(t_vector v1, t_vector v2)
 {
 	float dist;
+	float difx;
+	float dify;
 
-	dist = (o.width/2) / (tan(fov / 2));
-	return (dist); 
+	difx = pow(v2.x - v1.x, 2);
+	dify = pow(v2.y - v1.y, 2);
+	dist = sqrt(difx + dify);
+	return (dist);
 }
 
-t_mat2		get_rotate(float angle)
+t_vector	vect_add(t_vector v1, t_vector v2)
 {
-	t_mat2 m;
+	t_vector v;
 
-	m.a[0] = cos(angle);
-	m.a[1] = -1 * (sin(angle));
-	m.b[0] = sin(angle);
-	m.b[1] = cos(angle);
-	return (m);
+	v.x = v1.x + v2.x;
+	v.y = v1.y + v2.y;
+	return (v);
+}
+
+t_vector	vect_rotate(t_vector v, float angle)
+{
+	t_mat2	m;
+	t_vector t;
+
+	m = mat2_rotate(angle);
+	t = mat2_apply(v, m);
+	return (t);
 }

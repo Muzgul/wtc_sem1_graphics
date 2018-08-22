@@ -46,6 +46,31 @@ char	**read_to_array(int fd)
 	return (raw_data);
 }
 
+int		**convert_to_int(char **strarr)
+{
+	int		**grid;
+	char	**explode;
+	int		i;
+	int		j;
+
+	grid = (int **)malloc(sizeof(int *) * (row_count((void **)strarr)));
+	i = 0;
+	while (strarr[i] != NULL)
+	{
+		explode = ft_strsplit(strarr[i], ' ');
+		grid[i] = (int *)malloc(sizeof(int) * (row_count((void **)explode)));
+		j = 0;
+		while (explode[j] != NULL)
+		{
+			grid[i][j] = ft_atoi(explode[j]);
+			j++;
+		}
+		free_arr((void **)explode);
+		i++;
+	}
+	return (grid);
+}
+
 int		row_count(void **array)
 {
 	int i;

@@ -12,7 +12,7 @@
 
 NAME = execwolf
 FLAGS = gcc -Wall -Werror -Wextra 
-SOURCES = main.c input.c output.c persp.c 
+SOURCES = main.c input.c output.c persp.c free.c init.c matrix.c cam.c vect.c 
 
 OBJECTS = $(SOURCES:.c=.o)
 
@@ -34,5 +34,5 @@ fclean: clean
 	@make -C minilibx/ clean
 	@/bin/rm -f $(NAME)
 
-re: fclean all 
+re: fclean all
 

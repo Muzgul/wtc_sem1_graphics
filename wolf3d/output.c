@@ -23,3 +23,41 @@ void	print_strarr(char **strarr)
 		i++;
 	}
 }
+
+void	print_grid(t_grid g)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < g.h)
+	{
+		j = 0;
+		while (j < g.w)
+		{
+			ft_putnbr(g.grid[i][j]);
+			ft_putchar('|');
+			j++;
+		}
+		ft_putchar('\n');
+		i++;
+	}
+}
+
+void	print_cam(t_cam c)
+{
+	ft_putstr("*** cam x10 ***\n");
+	ft_putstr("-pos: x (");
+	ft_putnbr(c.pos.x * 10);
+	ft_putstr(") y(");
+	ft_putnbr(c.pos.y * 10);
+	ft_putstr(")\n");
+	ft_putstr("-dir: x (");
+	ft_putnbr(c.dir.x * 10);
+	ft_putstr(") y(");
+	ft_putnbr(c.dir.y * 10);
+	ft_putstr(")\n");
+	ft_putstr("-plane: ");
+	ft_putnbr(c.plane * 10);
+	ft_putendl("\n***************");
+}
