@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"rtv1.h": "c",
+		"libft.h": "c",
+		"limits": "c"
+	}
+}
