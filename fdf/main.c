@@ -21,12 +21,17 @@ int				main(int argc, char **argv)
 	if (argc > 1)
 	{
 		fd = open(argv[1], O_RDONLY);
-		strarr = read_to_array(fd);
-		mlx_obj = get_mlx_obj(strarr, 1600, 900, 90, argv[1]);
-		free_strarr(strarr);
-		mlx_key_hook(mlx_obj->mlx_win, key_hook, mlx_obj);
-		draw_grid(mlx_obj);
-		mlx_loop(mlx_obj->mlx_ptr);
+		if (fd > 0)
+		{
+			strarr = read_to_array(fd);
+			if (strarr == NULL)
+				return (0);
+			mlx_obj = get_mlx_obj(strarr, 1600, 900, 90);
+			free_strarr(strarr);
+			mlx_key_hook(mlx_obj->mlx_win, key_hook, mlx_obj);
+			draw_grid(mlx_obj);
+			mlx_loop(mlx_obj->mlx_ptr);
+		}
 	}
 	return (0);
 }

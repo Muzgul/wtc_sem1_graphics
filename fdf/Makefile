@@ -10,7 +10,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = execfdf
+NAME = fdf
 FLAGS = gcc -Wall -Werror -Wextra 
 SOURCES = main.c keyhook.c init.c free.c draw_help.c perspective.c draw.c linear.c convert.c input.c mat4.c output.c t_mat4.c vector.c 
 

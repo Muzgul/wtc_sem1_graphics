@@ -18,17 +18,37 @@ t_cam	rotate_cam(t_cam c, float angle)
 
 	m = mat2_rotate(angle);
 	c.dir = mat2_apply(c.dir, m);
+	c.plane = mat2_apply(c.plane, m);
 	return (c);
 }
 
-float	cam_plane(t_cam c, float fov)
+int		check_pos(t_hold *h, float posx, float posy)
 {
-	t_vector	temp;
-	float		dist;
-	float		plane;
+	int ret;
 
-	temp = init_vector(c.pos.x + c.dir.x, c.pos.y + c.dir.y);
-	dist = vect_dist(c.pos, temp);
-	plane = dist * tan(fov / 2);
-	return (plane);
+	ret = 0;
+	if ((int)posx >= 0 && (int)posx < h->g.w)
+		ret += 1;
+	if ((int)posy >= 0 && (int)posy < h->g.h)
+		ret += 2;
+	if (ret == 3 && h->g.grid[(int)posy][(int)posx] <= 0)
+		return (0);
+	return (-1);
+}
+
+t_cam	move_cam(t_hold *hold, float dist)
+{
+	float	posx;
+	float	posy;
+	int		res;
+
+	posx = hold->c.dir.x * dist + hold->c.pos.x;
+	posy = hold->c.dir.y * dist + hold->c.pos.y;
+	res = check_pos(hold, posx, posy);
+	if (res == 0)
+	{
+		hold->c.pos.x = posx;
+		hold->c.pos.y = posy;
+	}
+	return (hold->c);
 }

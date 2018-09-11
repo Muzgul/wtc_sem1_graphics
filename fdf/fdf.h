@@ -95,7 +95,10 @@ void				shift_z(t_point **grid, float diff);
 void				shift_x(t_point **grid, float diff);
 t_mat4				perspective_mat(float near, float far, float fov);
 t_mlx_obj			*get_mlx_obj(char **strarr, int width,
-								int height, float fov, char *name);
+								int height, float fov);
 int					key_hook(int keycode, t_mlx_obj *o);
+void				check_xrotate(int keycode, t_mlx_obj *o);
+void				check_yrotate(int keycode, t_mlx_obj *o);
+void				check_zrotate(int keycode, t_mlx_obj *o);
 
 #endif

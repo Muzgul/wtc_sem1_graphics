@@ -35,8 +35,8 @@ t_vector	vect_add(t_vector v1, t_vector v2)
 
 t_vector	vect_rotate(t_vector v, float angle)
 {
-	t_mat2	m;
-	t_vector t;
+	t_mat2		m;
+	t_vector	t;
 
 	m = mat2_rotate(angle);
 	t = mat2_apply(v, m);

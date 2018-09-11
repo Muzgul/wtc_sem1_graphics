@@ -70,13 +70,18 @@ char	**read_to_array(int fd)
 {
 	char	*line;
 	char	**raw_data;
+	int		res;
 
 	line = NULL;
 	raw_data = NULL;
-	while (get_next_line(fd, &line) == 1)
+	while ((res = get_next_line(fd, &line)) == 1)
 	{
 		raw_data = add_to_array(raw_data, line);
 	}
+	if (res == -1)
+		return (NULL);
+	if (line)
+		free(line);
 	return (raw_data);
 }
 

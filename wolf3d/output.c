@@ -57,7 +57,18 @@ void	print_cam(t_cam c)
 	ft_putstr(") y(");
 	ft_putnbr(c.dir.y * 10);
 	ft_putstr(")\n");
-	ft_putstr("-plane: ");
-	ft_putnbr(c.plane * 10);
+	ft_putstr("-plane: x (");
+	ft_putnbr(c.plane.x * 10);
+	ft_putstr(") y(");
+	ft_putnbr(c.plane.y * 10);
+	ft_putstr(")\n");
 	ft_putendl("\n***************");
+}
+
+void	print_err(char *str)
+{
+	ft_putstr("ERROR: ");
+	ft_putendl(str);
+	ft_putendl("[ EXIT ]");
+	exit(0);
 }

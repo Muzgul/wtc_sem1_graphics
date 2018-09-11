@@ -16,8 +16,8 @@ float		camera_dist(t_mlx_obj o, float fov)
 {
 	float dist;
 
-	dist = (o.width/2) / (tan(fov / 2));
-	return (dist); 
+	dist = (o.width / 2) / (tan(fov / 2));
+	return (dist);
 }
 
 t_mat2		get_rotate(float angle)

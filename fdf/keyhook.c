@@ -16,13 +16,13 @@ void	check_xrotate(int keycode, t_mlx_obj *o)
 {
 	t_mat4 r;
 
-	if (keycode == 13)
+	if (keycode == 1)
 	{
 		r = add_xrotate(5 * (M_PI / 180));
 		o->m = mult_mat4(r, o->m);
 		draw_grid(o);
 	}
-	if (keycode == 1)
+	if (keycode == 13)
 	{
 		r = add_xrotate(-5 * (M_PI / 180));
 		o->m = mult_mat4(r, o->m);

@@ -10,9 +10,9 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = execwolf
+NAME = wolf3d
 FLAGS = gcc -Wall -Werror -Wextra 
-SOURCES = main.c input.c output.c persp.c free.c init.c matrix.c cam.c vect.c 
+SOURCES = main.c cam.c draw_search.c draw.c free.c init.c input.c keyhook.c matrix.c output.c persp.c vect.c valid.c
 
 OBJECTS = $(SOURCES:.c=.o)
 
