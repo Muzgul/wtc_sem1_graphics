@@ -1,11 +1,12 @@
 ***
-Sphere
-- Origin: 0, 0, -10
-- Size: 6
-- Colour: white
-- Rotation: 10, 10, 0
+Cylinder
+- Origin: 0, 0, -20
+- Colour: green
+- Rotation: 40, 0, 0
+- Size: 2, 5, 0
 ***
-Sphere
-- Origin: 10, 10, -10
-- Size: 2
-- Colour: white
+Cylinder
+- Origin: -10, 0, -20
+- Colour: green
+- Rotation: -40, 0, 0
+- Size: 5, 2, 0

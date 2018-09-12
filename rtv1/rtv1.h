@@ -70,6 +70,8 @@ t_vector			vect_sub(t_vector v1, t_vector v2);
 double				test_object(t_object *o, t_vector ro, t_vector rd);
 double				test_circle(int size, t_vector co, t_vector ro, t_vector rd);
 double				test_plane(t_vector po, t_vector pn,  t_vector ro, t_vector rd);
+double				test_disk(t_vector po, t_vector pn, t_vector ro, t_vector rd, int size);
+double				test_cylinder(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector size);
 //cam
 t_vector			cam_ray(int x, int y, t_m_img img, t_cam c);
 //free

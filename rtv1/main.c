@@ -69,11 +69,7 @@ int		main(int ac, char **av)
 				{
 					if ((res = test_object(node, c.pos, ray)) > 0)
 					{
-						// if (res == 1)
-							mlx_pixel_put(mlx_ptr, mlx_win, j, i, 255255255);
-						if (res == 2)
-							mlx_pixel_put(mlx_ptr, mlx_win, j, i, 254245254);
-						// printf("Dist: %f\n", vect_get_dist(vect_mult(ray, res), ray));
+						mlx_pixel_put(mlx_ptr, mlx_win, j, i, node->colour);
 					}
 					node = node->next;
 				}

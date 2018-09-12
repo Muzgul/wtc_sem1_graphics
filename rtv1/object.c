@@ -22,23 +22,18 @@ double		test_box(t_object *o, t_vector ro, t_vector rd)
 	if (rd.x != 0.0) {
 		v1.x = (vect_sub(vect_add(o->origin, o->n), o->size).x - ro.x)/rd.x;
 		v2.x = (vect_add(vect_add(o->origin, o->n), o->size).x - ro.x)/rd.x;
-
 		tmin = max(tmin, min(v1.x, v2.x));
 		tmax = min(tmax, max(v1.x, v2.x));
 	}
-
 	if (rd.y != 0.0) {
 		v1.y = (vect_sub(vect_add(o->origin, o->n), o->size).y - ro.y)/rd.y;
 		v2.y = (vect_add(vect_add(o->origin, o->n), o->size).y - ro.y)/rd.y;
-
 		tmin = max(tmin, min(v1.y, v2.y));
 		tmax = min(tmax, max(v1.y, v2.y));
 	}
-
-	if (rd.y != 0.0) {
+	if (rd.z != 0.0) {
 		v1.z = (vect_sub(vect_add(o->origin, o->n), o->size).z - ro.z)/rd.z;
 		v2.z = (vect_add(vect_add(o->origin, o->n), o->size).z - ro.z)/rd.z;
-
 		tmin = max(tmin, min(v1.z, v2.z));
 		tmax = min(tmax, max(v1.z, v2.z));
 	}
@@ -47,50 +42,22 @@ double		test_box(t_object *o, t_vector ro, t_vector rd)
 
 double		test_object(t_object *o, t_vector ro, t_vector rd)
 {
-	if (test_box(o, ro, rd) > 0)
+	if (ft_strcmp(o->type, "Sphere") == 0)
+		return (test_circle(o->size.x, o->origin, ro, rd));
+	if (ft_strcmp(o->type,  "Plane") == 0)
+		return (test_plane(o->origin, o->n, ro, rd));
+	if (ft_strcmp(o->type, "Disk") == 0)
+		return (test_disk(o->origin, o->n, ro, rd, o->size.x));
+	if (ft_strcmp(o->type, "Cylinder") == 0)
 	{
-			ft_putendl("HEY WE HAVE A COLLISION!!!");
-		if (ft_strcmp(o->type, "Sphere") == 0)
-			return (test_circle(o->size.x, o->origin, ro, rd));
-		if (ft_strcmp(o->type,  "Plane") == 0)
-			return (test_plane(o->origin, o->n, ro, rd));
+		// if (test_box(o, ro, rd) > 0)
+			return (test_cylinder(o->origin, o->n, ro, rd, o->size));
 	}
 	return (-1);
 }
 
 double		test_circle(int size, t_vector co, t_vector ro, t_vector rd)
 {
-	// t_vector	res;
-	// double		delta;
-	// double		root;
-	// double		root2;
-
-	// a = (x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2
-	// b = 2( (x2 - x1)(x1 - x3) + (y2 - y1)(y1 - y3) +(z2 - z1)(z1 - z3) )
-	// c = x3^2 + y3^2 + z3^2 + x1^2 + y1^2 + z1^2 -2( x3*x1 + y3*y1 + z3*z1 ) - r^2
-	// rayt = vect_mult(ray, tmax);
-	// res.x = pow(rayt.x - ray.x, 2) + pow(rayt.y - ray.y, 2) + pow(rayt.z - ray.z, 2);
-	// res.y = (rayt.x - ray.x) * (ray.x - origin.x) + (rayt.y - ray.z) * (ray.y - origin.y) + (rayt.z - ray.z) * (ray.z - origin.z);
-	// res.y *= 2;
-	// res.z = pow(origin.x, 2) + pow(origin.y, 2) + pow(origin.z, 2) + pow(ray.x, 2) + pow(ray.y, 2) + pow(ray.z, 2) - 2 * (origin.x * ray.x + origin.y * ray.y + origin.z * ray.z) - pow(size, 2);
-	// res.x = pow(ray.x, 2) + pow(ray.y, 2) + pow(ray.z, 2);
-	// res.y = ray.x * (-1 * origin.x) + ray.y * (-1 * origin.y) + ray.z * (-1 * origin.z);
-	// res.y *= 2;
-	// res.z = pow(origin.x, 2) + pow(origin.y, 2) + pow(origin.z, 2) - pow(size, 2);
-	// delta = pow(res.y, 2) - (4 * res.x * res.z);
-	// if (delta > 0)
-	// {
-	// 	root = ((-1 * res.y) + sqrt(delta)) / (2 * res.x);
-	// 	if (root > 0)
-	// 		return (root);
-	// 	root = ((-1 * res.y) - sqrt(delta)) / (2 * res.x);
-	// 	return (root);
-	// }
-	// if (delta == 0)
-	// {
-	// 	root = -1 * (res.y / (2 * res.x));
-	// 	return (root);
-	// }
 	t_vector roco;
 	double trco;
 	double d;
@@ -122,6 +89,92 @@ double		test_plane(t_vector po, t_vector pn,  t_vector ro, t_vector rd)
 	if (den > 0.0001 || den < -0.0001)
 	{
 		return (vect_dot(pn, vect_sub(po, ro)) / den);
+	}
+	return (0);
+}
+
+double		test_disk(t_vector po, t_vector pn, t_vector ro, t_vector rd, int size)
+{
+	double		t;
+	t_vector	v;
+
+	if ((t = test_plane(po, pn, ro, rd)) > 0)
+	{
+		v = vect_add(ro, vect_mult(rd, t));
+		v = vect_sub(v, po);
+		if (vect_dot(v, v) <= pow(size, 2))
+			return (t);
+	}
+	return (0);
+}
+
+double		test_cylinder(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector size)
+{
+	double		a;
+	double		b;
+	double		c;
+	double		delta;
+	t_vector	v;
+
+	//pa = po
+	//va = pn
+	//p = ro
+	//v = rd
+	//delta = p - pa
+	//(v - (v . va)va)^2
+	v = vect_sub(rd, vect_mult(pn, vect_dot(rd, pn)));
+	a = vect_dot(v, v);
+	//2(v - (v . va)va   .   (p - pa)-((p - pa) . va)va)
+	v = vect_sub(ro, po);
+	b = vect_dot(vect_sub(rd, vect_mult(pn, vect_dot(rd, pn))), vect_sub(v, vect_mult(pn, vect_dot(v, pn))));
+	b *= 2;
+	//((p - pa) - ((p - pa) . va)va)^2 - r^2
+	v = vect_sub(v, vect_mult(pn, vect_dot(v, pn)));
+	c = vect_dot(v, v) - pow(size.x, 2);
+	delta = pow(b, 2) - 4 * a * c;
+	v.x = (-1 * b + sqrt(delta)) / (2 * a);
+	v.y = (-1 * b - sqrt(delta)) / (2 * a);
+	v.z = -1 * (b / (2 * a));
+	// ft_putendl("Cylinder");
+	// v = vect_cross(rd, vect_sub(pn, po));
+	// a = vect_dot(v, v);
+	// b = vect_dot(v, vect_cross(vect_sub(ro, po), vect_sub(pn, po)));
+	// b *= 2;
+	// v = vect_cross(vect_sub(ro, po), vect_sub(pn, po));
+	// c = vect_dot(v, v) - (pow(size.x, 2) * vect_dot(vect_sub(pn, po),vect_sub(pn, po)));
+	// delta = pow(b, 2) - 4 * a * c;
+	// v.x = (-1 * b + sqrt(delta)) / (2 * a);
+	// v.y = (-1 * b - sqrt(delta)) / (2 * a);
+	// v.z = -1 * (b / (2 * a));
+	double res;
+	if (delta > -0.001)
+	{
+		if (delta > 0.001)
+		{
+			if (v.x > 0.001)
+				res = v.x;
+			if (v.y > 0.001)
+				res = v.y;
+		}
+		if (delta < 0.001 && delta > -0.001)
+			res = v.z;
+		if (size.y != 0)
+		{
+			v = vect_mult(rd, res);
+			print_vector(v);
+			v = vect_sub(v, po);
+			v = vect_mult(pn, vect_dot(v, pn) / vect_dot(pn, pn));
+			print_vector(v);
+			if (fabs(vect_dot(v, pn)) < size.y)
+				return (res);
+			double another;
+			if ((another = test_disk(vect_add(vect_mult(pn, size.y), po), pn, ro, rd, size.x)) > 0.001)
+				return (another);
+			if ((another = test_disk(vect_add(vect_mult(pn, size.y * -1), po), pn, ro, rd, size.x)) > 0.001)
+				return (another);
+		}
+		else
+			return (res);
 	}
 	return (0);
 }

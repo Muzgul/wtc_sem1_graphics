@@ -54,7 +54,7 @@ int			fetch_size(t_object *node, char **ex)
 
 	ex_check = check_ex(ex);
 	if (ex_check == 3)
-		node->size = vect_get(ft_atoi(ex[2]), ft_atoi(ex[2]), ft_atoi(ex[2]));
+		node->size = vect_get(ft_atoi(ex[2]), 0, 0);
 	if (ex_check == 5)
 		node->size = vect_get(ft_atoi(ex[2]), ft_atoi(ex[3]), ft_atoi(ex[4]));
 	free_arrstr(ex);
