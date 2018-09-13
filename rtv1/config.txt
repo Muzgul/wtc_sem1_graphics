@@ -1,12 +1,6 @@
 ***
-Cylinder
+Cone
 - Origin: 0, 0, -20
 - Colour: green
-- Rotation: 40, 0, 0
-- Size: 2, 5, 0
-***
-Cylinder
-- Origin: -10, 0, -20
-- Colour: green
-- Rotation: -40, 0, 0
-- Size: 5, 2, 0
+- Rotation: 0, 0, 0
+- Size: 2, 5, 30

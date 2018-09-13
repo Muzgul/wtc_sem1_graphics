@@ -49,10 +49,9 @@ double		test_object(t_object *o, t_vector ro, t_vector rd)
 	if (ft_strcmp(o->type, "Disk") == 0)
 		return (test_disk(o->origin, o->n, ro, rd, o->size.x));
 	if (ft_strcmp(o->type, "Cylinder") == 0)
-	{
-		// if (test_box(o, ro, rd) > 0)
-			return (test_cylinder(o->origin, o->n, ro, rd, o->size));
-	}
+		return (test_cylinder(o->origin, o->n, ro, rd, o->size));
+	if (ft_strcmp(o->type, "Cone") == 0)
+		return (test_cone(o->origin, o->n, ro, rd, o->size));
 	return (-1);
 }
 
@@ -175,6 +174,45 @@ double		test_cylinder(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vect
 		}
 		else
 			return (res);
+	}
+	return (0);
+}
+
+double		test_cone(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector size)
+{
+	double		a;
+	double		b;
+	double		c;
+	double		delta;
+	t_vector	v;
+	double		res = 0;
+
+	if (size.z != 0)
+	{
+		//D = rd
+		//V = pn
+		//C = po
+		//O = ro
+		a = pow(vect_dot(rd, pn), 2) - ((1 + cos(angl(size.z))) / 2);
+		v = vect_sub(ro, po);
+		b = vect_dot(rd, pn) * vect_dot(v, pn) - vect_dot(rd, v) * ((1 + cos(angl(size.z))) / 2);
+		b *= 2;
+		c = pow(vect_dot(v, pn), 2) - vect_dot(v, v) * ((1 + cos(angl(size.z))) / 2);
+		delta = pow(b, 2) - 4 * a * c;
+		v.x = (-1 * b + sqrt(delta)) / (2 * a);
+		v.y = (-1 * b - sqrt(delta)) / (2 * a);
+		v.z = -1 * (b / (2 * a));
+		if (delta > 0.001)
+		{
+			if (v.x > 0.001)
+				res = v.x;
+			if (v.y > 0.001)
+				res = v.y;
+		}
+		if (delta < 0.001 && delta > -0.001)
+			res = v.z;
+		print_vector(v);
+		return (res);
 	}
 	return (0);
 }
