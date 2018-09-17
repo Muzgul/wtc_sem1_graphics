@@ -1,6 +1,12 @@
 ***
-Cone
+Sphere
 - Origin: 0, 0, -20
-- Colour: green
+- Colour: white
 - Rotation: 0, 0, 0
-- Size: 2, 5, 30
+- Size: 1, 0, 0
+***
+Plane
+- Origin: 0, -10, -20
+- Colour: white
+- Rotation: 0, 0, 0
+- Size: 0, 0, 0

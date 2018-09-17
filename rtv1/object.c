@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "rtv1.h"
+#include <stdio.h>
 
 double		test_box(t_object *o, t_vector ro, t_vector rd)
 {
@@ -160,10 +161,8 @@ double		test_cylinder(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vect
 		if (size.y != 0)
 		{
 			v = vect_mult(rd, res);
-			print_vector(v);
 			v = vect_sub(v, po);
 			v = vect_mult(pn, vect_dot(v, pn) / vect_dot(pn, pn));
-			print_vector(v);
 			if (fabs(vect_dot(v, pn)) < size.y)
 				return (res);
 			double another;
@@ -187,17 +186,21 @@ double		test_cone(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector s
 	t_vector	v;
 	double		res = 0;
 
-	if (size.z != 0)
+
+	if (size.z == 0)
+		size.z = tan(size.x / size.y);
+	else
 	{
-		//D = rd
-		//V = pn
-		//C = po
-		//O = ro
-		a = pow(vect_dot(rd, pn), 2) - ((1 + cos(angl(size.z))) / 2);
+		size.z = angl(size.z);
+		size.x = size.y * tan(size.z);
+	}
+	if (size.z != 0)
+	{		
+		a = pow(vect_dot(rd, pn), 2) - ((1 + cos(size.z)) / 2);
 		v = vect_sub(ro, po);
-		b = vect_dot(rd, pn) * vect_dot(v, pn) - vect_dot(rd, v) * ((1 + cos(angl(size.z))) / 2);
+		b = vect_dot(rd, pn) * vect_dot(v, pn) - vect_dot(rd, v) * ((1 + cos(size.z)) / 2);
 		b *= 2;
-		c = pow(vect_dot(v, pn), 2) - vect_dot(v, v) * ((1 + cos(angl(size.z))) / 2);
+		c = pow(vect_dot(v, pn), 2) - vect_dot(v, v) * ((1 + cos(size.z)) / 2);
 		delta = pow(b, 2) - 4 * a * c;
 		v.x = (-1 * b + sqrt(delta)) / (2 * a);
 		v.y = (-1 * b - sqrt(delta)) / (2 * a);
@@ -211,8 +214,16 @@ double		test_cone(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector s
 		}
 		if (delta < 0.001 && delta > -0.001)
 			res = v.z;
-		print_vector(v);
-		return (res);
+		if (size.y != 0)
+		{
+			if (fabs(vect_dot(vect_mult(rd, res), pn)) < size.y && vect_dot(vect_mult(rd, res), pn) < 0.001)
+				return (res);
+			double another;
+			if ((another = test_disk(vect_add(vect_mult(pn, -1 * size.y), po), pn, ro, rd, size.x)) > 0.001)
+				return (another);
+		}
+		else
+			return (res);
 	}
 	return (0);
 }

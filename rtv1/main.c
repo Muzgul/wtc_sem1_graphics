@@ -53,8 +53,14 @@ int		main(int ac, char **av)
 		int i;
 		int j;
 		t_vector ray;
+		t_vector ray2;
 		t_object *node;
+		t_object *node2;
+		double temp = 0;
+		double res2 = 0;
 		double res;
+		t_object light;
+		light.origin = vect_get(0, 10, -20);
 
 		i = 0;
 		while (i < m.h)
@@ -62,6 +68,16 @@ int		main(int ac, char **av)
 			j = 0;
 			while (j < m.w)
 			{
+
+				/*
+					NOTES ON HOW TO FIX DIS SHIT
+
+					1. Find shortest res from all the objects
+					2. Search to light and find the shortest
+						2a. Divide by total distance to light the get brightness variable
+						2b. Edit Color value by this amount / if value is not 1 then shadow
+						
+				*/
 				ray = cam_ray(j, i, m, c);
 				ray = vect_norm(ray);
 				node = head;
@@ -69,7 +85,38 @@ int		main(int ac, char **av)
 				{
 					if ((res = test_object(node, c.pos, ray)) > 0)
 					{
-						mlx_pixel_put(mlx_ptr, mlx_win, j, i, node->colour);
+						printf("Res: %f\n", res);
+						// mlx_pixel_put(mlx_ptr, mlx_win, j, i, node->colour);
+						node2 = head;
+						ray2 = vect_mult(ray, res - 1);
+						while (node2 != NULL)
+						{
+							res2 = test_object(node2, ray2, vect_norm(vect_sub(light.origin, ray2)));
+							if (fabs(res2) < 1)
+								mlx_pixel_put(mlx_ptr, mlx_win, j, i, 255 * 256);
+							if (res2 > 0 && node2 != node)
+							{
+								mlx_pixel_put(mlx_ptr, mlx_win, j, i, 255);
+								temp = 1;
+								break;
+								res2 = 0;
+							}
+							printf("Res2: %f\n", res);
+							if (res2 > 0)
+							{
+								temp = 1;
+								mlx_pixel_put(mlx_ptr, mlx_win, j, i, 255);
+							}
+							// if (res2 < 0)
+							// 	mlx_pixel_put(mlx_ptr, mlx_win, j, i, 255 * 256);
+							// if (res2 == 0)
+							// 	mlx_pixel_put(mlx_ptr, mlx_win, j, i, 255 * 65536);
+							node2 = node2->next;
+						}
+						if (temp == 0)
+							mlx_pixel_put(mlx_ptr, mlx_win, j, i, node->colour);
+						// if (temp == -1)
+						// 	mlx_pixel_put(mlx_ptr, mlx_win, j, i, 255 * 256);
 					}
 					node = node->next;
 				}

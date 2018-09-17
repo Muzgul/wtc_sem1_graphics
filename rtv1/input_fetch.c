@@ -93,6 +93,7 @@ int			fetch_norm(t_object *node, char **ex)
 {
 	t_mat4		m;
 	t_vector	v;
+	t_vector	in;
 	int			ex_check;
 
 	ex_check = check_ex(ex);
@@ -100,13 +101,14 @@ int			fetch_norm(t_object *node, char **ex)
 	if (ex_check == 5)
 	{
 		m = get_mat4();
-		if (ft_atoi(ex[2]) != 0)
-			m = add_xrotate(ft_atoi(ex[2]));
-		if (ft_atoi(ex[3]) != 0)
-			m = add_yrotate(ft_atoi(ex[3]));
-		if (ft_atoi(ex[4]) != 0)
-			m = add_zrotate(ft_atoi(ex[4]));
-		v = apply_mat(v, m);
+		if ((in.x = ft_atoi(ex[2])) != 0)
+			m = add_xrotate(in.x);
+		if ((in.y = ft_atoi(ex[3])) != 0)
+			m = add_yrotate(in.y);
+		if ((in.z = ft_atoi(ex[4])) != 0)
+			m = add_zrotate(in.z);
+		if (in.x != 0 || in.y != 0 || in.z != 0)
+			v = apply_mat(v, m);
 	}
 	free_arrstr(ex);
 	if (ex_check == 3 || ex_check == 5)
