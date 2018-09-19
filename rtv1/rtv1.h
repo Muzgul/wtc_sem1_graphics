@@ -18,6 +18,11 @@
 # define min(x, y) ((x) < (y) ? (x) : (y))
 # define max(x, y) ((x) > (y) ? (x) : (y))
 
+
+
+//REMOVE THIS
+#include <stdio.h>
+
 typedef struct		s_vector
 {
 	double			x;
@@ -96,5 +101,10 @@ t_vector			apply_mat(t_vector og, t_mat4 m);
 t_mat4				add_zrotate(float angle);
 t_mat4				add_xrotate(float angle);
 t_mat4				add_yrotate(float angle);
+//collision
+double				shortest_dist(t_object *head, t_vector ro, t_vector rd, double *colour);
+double				light_intensity(t_object *obj, t_object light, t_vector ray);
+//light
+int     			adjust_colour(int colour, double brightness, int strength);
 
 #endif

@@ -158,21 +158,21 @@ double		test_cylinder(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vect
 		}
 		if (delta < 0.001 && delta > -0.001)
 			res = v.z;
-		if (size.y != 0)
-		{
-			v = vect_mult(rd, res);
-			v = vect_sub(v, po);
-			v = vect_mult(pn, vect_dot(v, pn) / vect_dot(pn, pn));
-			if (fabs(vect_dot(v, pn)) < size.y)
-				return (res);
-			double another;
-			if ((another = test_disk(vect_add(vect_mult(pn, size.y), po), pn, ro, rd, size.x)) > 0.001)
-				return (another);
-			if ((another = test_disk(vect_add(vect_mult(pn, size.y * -1), po), pn, ro, rd, size.x)) > 0.001)
-				return (another);
-		}
-		else
-			return (res);
+		// if (size.y != 0)
+		// {
+		// 	v = vect_mult(rd, res);
+		// 	v = vect_sub(v, po);
+		// 	v = vect_mult(pn, vect_dot(v, pn) / vect_dot(pn, pn));
+		// 	if (fabs(vect_dot(v, pn)) < size.y)
+		// 		return (res);
+		// 	double another;
+		// 	if ((another = test_disk(vect_add(vect_mult(pn, size.y), po), pn, ro, rd, size.x)) > 0.001)
+		// 		return (another);
+		// 	if ((another = test_disk(vect_add(vect_mult(pn, size.y * -1), po), pn, ro, rd, size.x)) > 0.001)
+		// 		return (another);
+		// }
+		// else
+		return (res);
 	}
 	return (0);
 }
@@ -205,25 +205,27 @@ double		test_cone(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector s
 		v.x = (-1 * b + sqrt(delta)) / (2 * a);
 		v.y = (-1 * b - sqrt(delta)) / (2 * a);
 		v.z = -1 * (b / (2 * a));
-		if (delta > 0.001)
+		if (delta > (double)0)
 		{
-			if (v.x > 0.001)
+			if (v.x <= v.y)
 				res = v.x;
-			if (v.y > 0.001)
+			// if (v.y > (double)0)
+			else
 				res = v.y;
 		}
-		if (delta < 0.001 && delta > -0.001)
+		if (delta == (double)0)
 			res = v.z;
-		if (size.y != 0)
+		if (vect_dot(vect_sub(vect_mult(rd, res), po), vect_mult(pn, -1)) > 0)
 		{
-			if (fabs(vect_dot(vect_mult(rd, res), pn)) < size.y && vect_dot(vect_mult(rd, res), pn) < 0.001)
+			if (size.y != 0)
+			{
+				// if (fabs(vect_dot(vect_mult(rd, res), vect_mult(pn, -1))) < (size.y * 2) )
+				if (vect_dot(vect_sub(vect_mult(rd, res), po), vect_mult(pn, -1)) < size.y)
+					return (res);
+			}
+			else
 				return (res);
-			double another;
-			if ((another = test_disk(vect_add(vect_mult(pn, -1 * size.y), po), pn, ro, rd, size.x)) > 0.001)
-				return (another);
 		}
-		else
-			return (res);
 	}
 	return (0);
 }
