@@ -78,6 +78,8 @@ double				test_plane(t_vector po, t_vector pn,  t_vector ro, t_vector rd);
 double				test_disk(t_vector po, t_vector pn, t_vector ro, t_vector rd, int size);
 double				test_cylinder(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector size);
 double				test_cone(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector size);
+double				test_object_shadow(t_object *o, t_vector ro, t_vector rd);
+double				test_cone_shadow(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector size);
 //cam
 t_vector			cam_ray(int x, int y, t_m_img img, t_cam c);
 //free
@@ -104,6 +106,7 @@ t_mat4				add_yrotate(float angle);
 //collision
 double				shortest_dist(t_object *head, t_vector ro, t_vector rd, double *colour);
 double				light_intensity(t_object *obj, t_object light, t_vector ray);
+double      		shortest_dist_shadow(t_object *obj, t_vector ro, t_vector rd, double *colour);
 //light
 int     			adjust_colour(int colour, double brightness, int strength);
 

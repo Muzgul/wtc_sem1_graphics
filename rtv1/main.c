@@ -30,6 +30,7 @@ int		main(int ac, char **av)
 		fd = open(av[1], O_RDONLY);
 		if (fd < 1)
 			return (0);
+		
 		head = read_objects(fd);
 		if (head == NULL)
 			exit (0);
@@ -59,7 +60,7 @@ int		main(int ac, char **av)
 		// double res2 = 0;
 		double res;
 		t_object light;
-		light.origin = vect_get(10, 5, -5);
+		light.origin = vect_get(2, 5, -10);
 
 		i = 0;
 		while (i < m.h)
@@ -84,8 +85,8 @@ int		main(int ac, char **av)
 				res = shortest_dist(head, c.pos, ray, &colour);
 				if (res > 0)
 				{
-					brightness = light_intensity(head, light, vect_mult(ray, res));
-					if (brightness > 0)
+					brightness = light_intensity(head, light, vect_mult(ray, res - 0.001));
+					if (brightness >= 0)
 						mlx_pixel_put(mlx_ptr, mlx_win, j, i, adjust_colour(colour, brightness, 10));
 					if (brightness == -1)
 						mlx_pixel_put(mlx_ptr, mlx_win, j, i, 255 * 256);

@@ -111,6 +111,8 @@ int			fetch_norm(t_object *node, char **ex)
 			v = apply_mat(v, m);
 	}
 	free_arrstr(ex);
+	if (ft_strcmp(node->type, "Cone") == 0)
+		v = vect_mult(v, -1);
 	if (ex_check == 3 || ex_check == 5)
 		node->n = v;
 	else

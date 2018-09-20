@@ -1,32 +1,26 @@
 ***
 Cone
-- Origin: 0, 5, -20
-- Colour: red
+- Origin: 0, 0, -20
+- Colour: white
 - Rotation: 0, 0, 0
-- Size: 0, 6, 30
-***
-Cone
-- Origin: 0, -5, -20
-- Colour: red
-- Rotation: 0, 0, 0
-- Size: 0, 6, 80
+- Size: 0, 0, 80
 ***
 Plane
 - Origin: 0, -10, 0
-- Colour: blue
+- Colour: green
 - Rotation: 0, 0, 0
 ***
 Plane
-- Origin: 0, 0, -50
+- Origin: 0, 0, -30
 - Colour: blue
 - Rotation: 90, 0, 0
 ***
 Plane
 - Origin: -20, 0, 0
-- Colour: blue
+- Colour: red
 - Rotation: 0, 0, 90
 ***
 Plane
 - Origin: 20, 0, 0
-- Colour: blue
+- Colour: white
 - Rotation: 0, 0, 90

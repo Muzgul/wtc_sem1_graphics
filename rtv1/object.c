@@ -56,6 +56,21 @@ double		test_object(t_object *o, t_vector ro, t_vector rd)
 	return (-1);
 }
 
+double		test_object_shadow(t_object *o, t_vector ro, t_vector rd)
+{
+	if (ft_strcmp(o->type, "Sphere") == 0)
+		return (test_circle(o->size.x, o->origin, ro, rd));
+	if (ft_strcmp(o->type,  "Plane") == 0)
+		return (test_plane(o->origin, o->n, ro, rd));
+	if (ft_strcmp(o->type, "Disk") == 0)
+		return (test_disk(o->origin, o->n, ro, rd, o->size.x));
+	if (ft_strcmp(o->type, "Cylinder") == 0)
+		return (test_cylinder(o->origin, o->n, ro, rd, o->size));
+	if (ft_strcmp(o->type, "Cone") == 0)
+		return (test_cone_shadow(o->origin, o->n, ro, rd, o->size));
+	return (-1);
+}
+
 double		test_circle(int size, t_vector co, t_vector ro, t_vector rd)
 {
 	t_vector roco;
@@ -147,6 +162,7 @@ double		test_cylinder(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vect
 	// v.y = (-1 * b - sqrt(delta)) / (2 * a);
 	// v.z = -1 * (b / (2 * a));
 	double res;
+	res = 0;
 	if (delta > -0.001)
 	{
 		if (delta > 0.001)
@@ -186,6 +202,72 @@ double		test_cone(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector s
 	t_vector	v;
 	double		res = 0;
 
+	if (size.z == 0)
+		size.z = tan(size.x / size.y);
+	else
+	{
+		size.z = angl(size.z);
+		size.x = size.y * tan(size.z);
+	}
+	if (size.z != 0)
+	{		
+		a = pow(vect_dot(rd, pn), 2) - ((1 + cos(size.z)) / 2);
+		v = vect_sub(ro, po);
+		b = vect_dot(rd, pn) * vect_dot(v, pn) - vect_dot(rd, v) * ((1 + cos(size.z)) / 2);
+		b *= 2;
+		c = pow(vect_dot(v, pn), 2) - vect_dot(v, v) * ((1 + cos(size.z)) / 2);
+		delta = pow(b, 2) - 4 * a * c;
+		v.x = (-1 * b + sqrt(delta)) / (2 * a);
+		v.y = (-1 * b - sqrt(delta)) / (2 * a);
+		v.z = -1 * (b / (2 * a));
+		if (delta >= (double)0)
+		{
+			if (delta > 0.001)
+			{
+				if (v.x > (double)0 && v.y > (double)0)
+				{
+					// if (v.x < 1)
+					// 	printf("Both +: t0(%f) t1(%f) delta(%f) a(%f) b(%f) c(%f) ***\n", v.x, v.y, delta, a, b, c);
+					// else
+					// 	printf("Both +: t0(%f) t1(%f) delta(%f) a(%f) b(%f) c(%f)\n", v.x, v.y, delta, a, b, c);
+					if (v.x < v.y)
+						res = v.x;
+					else
+						res = v.y;
+				}
+				else
+				{
+					if (v.x > (double)0)
+						res = v.x;
+					if (v.y > (double)0)
+						res = v.y;
+				}
+			}
+			if (delta < 0.001 && delta > -0.001)
+				res = v.z;
+			if (vect_dot(vect_sub(vect_mult(rd, res), po), pn) > 0)
+			{
+				if (size.y != 0)
+				{
+					if (vect_dot(vect_sub(vect_mult(rd, res), po), pn) < size.y)
+						return (res);
+				}
+				else
+					return (res);
+			}
+		}
+	}
+	return (0);
+}
+
+double		test_cone_shadow(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector size)
+{
+	double		a;
+	double		b;
+	double		c;
+	double		delta;
+	t_vector	v;
+	double		res = 0;
 
 	if (size.z == 0)
 		size.z = tan(size.x / size.y);
@@ -205,26 +287,41 @@ double		test_cone(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector s
 		v.x = (-1 * b + sqrt(delta)) / (2 * a);
 		v.y = (-1 * b - sqrt(delta)) / (2 * a);
 		v.z = -1 * (b / (2 * a));
-		if (delta > (double)0)
+		if (delta >= (double)0)
 		{
-			if (v.x <= v.y)
-				res = v.x;
-			// if (v.y > (double)0)
-			else
-				res = v.y;
-		}
-		if (delta == (double)0)
-			res = v.z;
-		if (vect_dot(vect_sub(vect_mult(rd, res), po), vect_mult(pn, -1)) > 0)
-		{
-			if (size.y != 0)
+			if (delta > 0.001)
 			{
-				// if (fabs(vect_dot(vect_mult(rd, res), vect_mult(pn, -1))) < (size.y * 2) )
-				if (vect_dot(vect_sub(vect_mult(rd, res), po), vect_mult(pn, -1)) < size.y)
+				if (v.x > (double)0 && v.y > (double)0)
+				{
+					// if (v.x < 1)
+					// 	printf("Both +: t0(%f) t1(%f) delta(%f) a(%f) b(%f) c(%f) ***\n", v.x, v.y, delta, a, b, c);
+					// else
+					// 	printf("Both +: t0(%f) t1(%f) delta(%f) a(%f) b(%f) c(%f)\n", v.x, v.y, delta, a, b, c);
+					if (v.x < v.y)
+						res = v.x;
+					else
+						res = v.y;
+				}
+				else
+				{
+					if (v.x > (double)0)
+						res = v.x;
+					if (v.y > (double)0)
+						res = v.y;
+				}
+			}
+			if (delta < 0.001 && delta > -0.001)
+				res = v.z;
+			if (vect_dot(vect_sub(vect_mult(rd, res), po), vect_mult(pn, -1)) > 0)
+			{
+				if (size.y != 0)
+				{
+					if (vect_dot(vect_sub(vect_mult(rd, res), po), pn) < size.y)
+						return (res);
+				}
+				else
 					return (res);
 			}
-			else
-				return (res);
 		}
 	}
 	return (0);
