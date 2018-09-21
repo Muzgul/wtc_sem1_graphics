@@ -31,7 +31,7 @@ t_vector	to_screen(t_vector ndc, double ar, double fov)
 	v.x = (2 * ndc.x - 1) * ar * tan(fov / 2);
 	v.y = (1 - 2 * ndc.y) * tan(fov / 2);
 	v.z = ndc.z;
-	return (v); 
+	return (v);
 }
 
 t_vector	cam_ray(int x, int y, t_m_img img, t_cam c)
@@ -42,4 +42,33 @@ t_vector	cam_ray(int x, int y, t_m_img img, t_cam c)
 	ndc = to_ndc(x, y, img.w, img.h);
 	v = to_screen(ndc, img.w / img.h, c.fov);
 	return (v);
+}
+
+void		trace(t_holder s)
+{
+	int			i;
+	int			j;
+	t_vector	ray;
+	t_vector	rcb;
+
+	i = 0;
+	while (i < s.m.h)
+	{
+		j = 0;
+		while (j < s.m.w)
+		{
+			ray = vect_norm(cam_ray(j, i, s.m, s.c));
+			rcb.x = shortest_dist(s.head, s.c.pos, ray, &rcb.y);
+			if (rcb.x > 0)
+			{
+				rcb.z = light_intensity(s.head, s.light,
+					vect_mult(ray, rcb.x - 0.001));
+				if (rcb.z >= 0)
+					mlx_pixel_put(s.mlx_ptr, s.mlx_win, j, i,
+						adjust_colour(rcb.y, rcb.z, 10));
+			}
+			j++;
+		}
+		i++;
+	}
 }

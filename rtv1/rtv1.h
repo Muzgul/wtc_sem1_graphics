@@ -60,6 +60,26 @@ typedef struct		s_mat4
 	double			c[4];
 }					t_mat4;
 
+typedef struct		s_point
+{
+	t_vector		o;
+	t_vector		d;
+}					t_point;
+
+typedef struct		s_holder
+{
+	void			*mlx_ptr;
+	void			*mlx_win;
+	t_m_img			m;
+	t_cam			c;
+	t_object		*head;
+	t_vector		light;
+}					t_holder;
+
+//misc
+int					check_ex(char **ex);
+//init
+t_point				point_get(t_vector o, t_vector d);
 //angle
 double				angl(double angle);
 //vector
@@ -72,14 +92,12 @@ t_vector			vect_norm(t_vector v);
 t_vector			vect_add(t_vector v1, t_vector v2);
 t_vector			vect_sub(t_vector v1, t_vector v2);
 //object
-double				test_object(t_object *o, t_vector ro, t_vector rd);
-double				test_circle(int size, t_vector co, t_vector ro, t_vector rd);
-double				test_plane(t_vector po, t_vector pn,  t_vector ro, t_vector rd);
-double				test_disk(t_vector po, t_vector pn, t_vector ro, t_vector rd, int size);
-double				test_cylinder(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector size);
-double				test_cone(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector size);
-double				test_object_shadow(t_object *o, t_vector ro, t_vector rd);
-double				test_cone_shadow(t_vector po, t_vector pn, t_vector ro, t_vector rd, t_vector size);
+double				test_object(t_object *o, t_point r);
+double				test_circle(int size, t_vector co, t_point r);
+double				test_plane(t_point p,  t_point r);
+double				test_disk(t_point p,  t_point r, int size);
+double				test_cylinder(t_point p,  t_point r, t_vector size);
+double				test_cone(t_point p,  t_point r, t_vector size);
 //cam
 t_vector			cam_ray(int x, int y, t_m_img img, t_cam c);
 //free
@@ -105,9 +123,10 @@ t_mat4				add_xrotate(float angle);
 t_mat4				add_yrotate(float angle);
 //collision
 double				shortest_dist(t_object *head, t_vector ro, t_vector rd, double *colour);
-double				light_intensity(t_object *obj, t_object light, t_vector ray);
-double      		shortest_dist_shadow(t_object *obj, t_vector ro, t_vector rd, double *colour);
+double				light_intensity(t_object *obj, t_vector light, t_vector ray);
 //light
-int     			adjust_colour(int colour, double brightness, int strength);
-
+int					adjust_colour(int colour, double brightness, int strength);
+int					key_hook(int keycode, void *param);
+t_holder			setup(int fd);
+void				trace(t_holder s);
 #endif

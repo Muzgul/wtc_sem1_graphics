@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-t_object	*new_node()
+t_object	*new_node(void)
 {
 	t_object	*n;
 
@@ -41,10 +41,7 @@ int			read_node(t_object **head, char *line)
 
 	ex = NULL;
 	if (ft_strncmp(line, "***", 3) == 0)
-	{
 		add_node(head, new_node());
-		return (0);
-	}
 	else
 	{
 		ex = ft_strsplit(line, ' ');
@@ -56,18 +53,18 @@ int			read_node(t_object **head, char *line)
 				return (fetch_size(*head, ex));
 			if (ft_strcmp(ex[1], "Rotation:") == 0)
 				return (fetch_norm(*head, ex));
-			if (ft_strcmp(ex[1], "Colour:") == 0 || ft_strcmp(ex[1], "Color") == 0)
+			if (ft_strcmp(ex[1], "Colour:") == 0)
 				return (fetch_colour(*head, ex));
 		}
 		else
 			return (fetch_name(*head, line));
 	}
-	return (-1);
+	return (0);
 }
 
 t_object	*read_objects(int fd)
 {
-	t_object 	*head;
+	t_object	*head;
 	char		*line;
 	int			res;
 

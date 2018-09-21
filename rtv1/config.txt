@@ -1,9 +1,20 @@
 ***
+Sphere
+- Origin: 0, 0, -10
+- Colour: red
+- Size: 1
+***
+Cylinder
+- Origin: 0, 0, -20
+- Colour: green
+- Rotation: 10, 20, 30
+- Size: 1, 2, 0
+***
 Cone
 - Origin: 0, 0, -20
 - Colour: white
-- Rotation: 0, 0, 0
-- Size: 0, 0, 80
+- Rotation: 30, 20, 10
+- Size: 0, 5, 80
 ***
 Plane
 - Origin: 0, -10, 0
@@ -11,7 +22,7 @@ Plane
 - Rotation: 0, 0, 0
 ***
 Plane
-- Origin: 0, 0, -30
+- Origin: 0, 0, -25
 - Colour: blue
 - Rotation: 90, 0, 0
 ***

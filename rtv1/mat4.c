@@ -25,9 +25,6 @@ t_mat4		get_mat4(void)
 		new.c[i] = 0;
 		i++;
 	}
-	// new.a[0] = 1;
-	// new.b[1] = 1;
-	// new.c[2] = 1;
 	return (new);
 }
 

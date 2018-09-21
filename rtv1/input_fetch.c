@@ -12,21 +12,8 @@
 
 #include "rtv1.h"
 
-int			check_ex(char **ex)
-{
-	int i;
-
-	if (ex == NULL)
-		return (-1);
-	i = 0;
-	while (ex[i] != NULL)
-		i++;
-	return (i);
-}
-
 int			fetch_name(t_object *node, char *line)
 {
-
 	if (line == NULL || node->type != NULL)
 		return (-1);
 	node->type = ft_strdup(line);
@@ -43,7 +30,7 @@ int			fetch_origin(t_object *node, char **ex)
 	if (ex_check == 5)
 		node->origin = vect_get(ft_atoi(ex[2]), ft_atoi(ex[3]), ft_atoi(ex[4]));
 	free_arrstr(ex);
-	if (ex_check != 3 && ex_check != 5)		
+	if (ex_check != 3 && ex_check != 5)
 		return (-1);
 	return (0);
 }
@@ -58,7 +45,7 @@ int			fetch_size(t_object *node, char **ex)
 	if (ex_check == 5)
 		node->size = vect_get(ft_atoi(ex[2]), ft_atoi(ex[3]), ft_atoi(ex[4]));
 	free_arrstr(ex);
-	if (ex_check != 3 && ex_check != 5)		
+	if (ex_check != 3 && ex_check != 5)
 		return (-1);
 	return (0);
 }
@@ -100,7 +87,6 @@ int			fetch_norm(t_object *node, char **ex)
 	v = vect_get(0, 1, 0);
 	if (ex_check == 5)
 	{
-		m = get_mat4();
 		if ((in.x = ft_atoi(ex[2])) != 0)
 			m = add_xrotate(in.x);
 		if ((in.y = ft_atoi(ex[3])) != 0)
@@ -113,9 +99,8 @@ int			fetch_norm(t_object *node, char **ex)
 	free_arrstr(ex);
 	if (ft_strcmp(node->type, "Cone") == 0)
 		v = vect_mult(v, -1);
-	if (ex_check == 3 || ex_check == 5)
-		node->n = v;
-	else
+	if (ex_check != 3 && ex_check != 5)
 		return (-1);
+	node->n = v;
 	return (0);
 }

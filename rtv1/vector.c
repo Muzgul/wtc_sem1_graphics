@@ -22,17 +22,6 @@ t_vector	vect_mult(t_vector v, double s)
 	return (n);
 }
 
-t_vector	vect_norm(t_vector v)
-{
-	t_vector	n;
-	double		dist;
-
-	dist = pow(v.x, 2) + pow(v.y, 2) + pow(v.z, 2);
-	dist = sqrt(dist);
-	n = vect_get(v.x / dist, v.y / dist, v.z / dist);
-	return (n);
-}
-
 t_vector	vect_add(t_vector v1, t_vector v2)
 {
 	t_vector res;
@@ -72,37 +61,3 @@ double		vect_dot(t_vector v1, t_vector v2)
 	res += v1.z * v2.z;
 	return (res);
 }
-
-double		vect_get_dist(t_vector f, t_vector t)
-{
-	float dx;
-	float dy;
-	float dz;
-	float dist;
-
-	dx = pow(t.x - f.x, 2);
-	dy = pow(t.y - f.y, 2);
-	dz = pow(t.z - f.z, 2);
-	dist = sqrt(dx + dy + dz);
-	return (dist);
-}
-
-/* new search function that goes from src to t_max in dir and uses the object test fromt he struct to test if hit */
-
-// double		vect_search(t_vector src, t_vector dir, double t_max, float (*is_hit)(t_vector))
-// {
-// 	t_vector	step;
-// 	double		t;
-// 	double		dist;
-// 	double		temp;
-
-// 	t = 1;
-// 	while (t < t_max)
-// 	{
-// 		step = vect_add(src, vect_mult(dir, t));
-// 		if ((dist = is_hit(step)) != -1)
-// 			return (dist);
-// 		t += (float)0.1;
-// 	}
-// 	return (-1);
-// }

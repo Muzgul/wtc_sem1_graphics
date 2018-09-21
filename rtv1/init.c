@@ -22,11 +22,20 @@ t_vector	vect_get(float x, float y, float z)
 	return (v);
 }
 
-t_cam	cam_get(float zdir)
+t_cam		cam_get(float zdir)
 {
-	t_cam		c;
+	t_cam c;
 
 	c.pos = vect_get(0, 0, 0);
 	c.dir = vect_get(0, 0, zdir);
 	return (c);
+}
+
+t_point		point_get(t_vector o, t_vector d)
+{
+	t_point n;
+
+	n.o = o;
+	n.d = d;
+	return (n);
 }
