@@ -16,18 +16,15 @@ t_holder	setup(int fd)
 {
 	t_holder stuff;
 
-	stuff.head = read_objects(fd);
+	stuff.head = read_file(fd, &stuff.light, &stuff.c);
 	if (stuff.head == NULL)
-		exit(0);
+		input_error(&stuff.head, NULL, "Error on input!");
 	stuff.m.h = 900;
 	stuff.m.w = 900;
 	stuff.mlx_ptr = mlx_init();
 	stuff.mlx_win = mlx_new_window(stuff.mlx_ptr, stuff.m.w, stuff.m.h, "RTV1");
 	mlx_key_hook(stuff.mlx_win, key_hook, NULL);
-	stuff.c.pos = vect_get(0, 0, 0);
-	stuff.c.dir = vect_get(0, 0, -1);
 	stuff.c.fov = angl(90);
-	stuff.light = vect_get(0, 0, 0);
 	return (stuff);
 }
 

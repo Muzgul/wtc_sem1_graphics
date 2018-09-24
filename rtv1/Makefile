@@ -12,7 +12,7 @@
 
 NAME = rtv1
 FLAGS = gcc -Wall -Werror -Wextra 
-SOURCES = main.c angle.c camera.c free.c init.c input_fetch.c input.c object.c vector.c output.c mat4.c t_mat4.c collision.c light.c misc.c
+SOURCES = main.c angle.c camera.c free.c init.c input_fetch.c input.c object.c vector.c output.c mat4.c t_mat4.c collision.c light.c misc.c list.c error.c check_input.c config.c
 
 OBJECTS = $(SOURCES:.c=.o)
 

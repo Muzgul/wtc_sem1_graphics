@@ -104,13 +104,14 @@ t_vector			cam_ray(int x, int y, t_m_img img, t_cam c);
 void				free_arrstr(char **arr);
 void				free_list(t_object **head);
 //input_fetch
-int					fetch_name(t_object *node, char *line);
-int					fetch_origin(t_object *node, char **ex);
-int					fetch_size(t_object *node, char **ex);
-int					fetch_colour(t_object *node, char **ex);
-int					fetch_norm(t_object *node, char **ex);
+int					fetch_name(char **ex, t_object **head);
+int					fetch_origin(char **ex, t_object **head);
+int					fetch_size(char **ex, t_object **head);
+int					fetch_colour(char **ex, t_object **head);
+int					fetch_norm(char **ex, t_object **head);
+int					fetch_vect(char *line, t_vector *v);
 //read
-t_object			*read_objects(int fd);
+t_object			*read_file(int fd, t_vector *light, t_cam *c);
 //output
 void				print_list(t_object *head);
 void				print_vector(t_vector v);
@@ -129,4 +130,10 @@ int					adjust_colour(int colour, double brightness, int strength);
 int					key_hook(int keycode, void *param);
 t_holder			setup(int fd);
 void				trace(t_holder s);
+void				input_error(t_object **head, char **ex, char *msg);
+double				calc_res(t_vector abc);
+t_object			*new_node(void);
+void				add_node(t_object **head, t_object *new);
+//check
+int					check_name(char *line);
 #endif

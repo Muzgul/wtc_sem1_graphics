@@ -12,74 +12,78 @@
 
 #include "rtv1.h"
 
-t_object	*new_node(void)
+int			read_cam(int fd, t_cam *c)
 {
-	t_object	*n;
+	char	*line;
+	char	**ex;
+	int		ex_check;
 
-	n = (t_object *)malloc(sizeof(t_object));
-	n->type = NULL;
-	n->colour = 0;
-	n->size = vect_get(0, 0, 0);
-	n->origin = vect_get(0, 0, 0);
-	n->n = vect_get(0, 0, 0);
-	n->next = NULL;
-	return (n);
-}
-
-void		add_node(t_object **head, t_object *new)
-{
-	if (new != NULL)
-	{
-		new->next = *head;
-		*head = new;
-	}
-}
-
-int			read_node(t_object **head, char *line)
-{
-	char **ex;
-
-	ex = NULL;
-	if (ft_strncmp(line, "***", 3) == 0)
-		add_node(head, new_node());
-	else
-	{
-		ex = ft_strsplit(line, ' ');
-		if (ex[0][0] == '-')
-		{
-			if (ft_strcmp(ex[1], "Origin:") == 0)
-				return (fetch_origin(*head, ex));
-			if (ft_strcmp(ex[1], "Size:") == 0)
-				return (fetch_size(*head, ex));
-			if (ft_strcmp(ex[1], "Rotation:") == 0)
-				return (fetch_norm(*head, ex));
-			if (ft_strcmp(ex[1], "Colour:") == 0)
-				return (fetch_colour(*head, ex));
-		}
-		else
-			return (fetch_name(*head, line));
-	}
+	if (get_next_line(fd, &line) <= 0)
+		return (-1);
+	ex = ft_strsplit(line, ';');
+	free(line);
+	if ((ex_check = check_ex(ex)) != 3)
+		input_error(NULL, ex, "Invalid argument for camera!");
+	if (fetch_vect(ex[1], &c->pos) < 3)
+		input_error(NULL, ex, "Invalid camera origin!");
+	if (fetch_vect(ex[2], &c->dir) < 3)
+		input_error(NULL, ex, "Invalid camera direction!");
+	free_arrstr(ex);
 	return (0);
 }
 
-t_object	*read_objects(int fd)
+int			read_light(int fd, t_vector *light)
 {
-	t_object	*head;
+	char	*line;
+	char	**ex;
+
+	if (get_next_line(fd, &line) <= 0)
+		return (-1);
+	ex = ft_strsplit(line, ';');
+	free(line);
+	if (check_ex(ex) != 2)
+		input_error(NULL, ex, "Invalid light!");
+	if (fetch_vect(ex[1], light) < 1)
+		input_error(NULL, ex, "Invalid light!");
+	free_arrstr(ex);
+	return (0);
+}
+
+int			read_nodes(int fd, t_object **head)
+{
 	char		*line;
-	int			res;
+	char		**ex;
+
+	*head = NULL;
+	while (get_next_line(fd, &line) > 0)
+	{
+		ex = ft_strsplit(line, ';');
+		free(line);
+		if (check_ex(ex) != 5)
+			input_error(NULL, ex, "Invalid argument for node!");
+		add_node(head, new_node());
+		fetch_name(ex, head);
+		fetch_origin(ex, head);
+		fetch_norm(ex, head);
+		fetch_size(ex, head);
+		fetch_colour(ex, head);
+		free_arrstr(ex);
+	}
+	if (*head != NULL)
+		return (0);
+	return (-1);
+}
+
+t_object	*read_file(int fd, t_vector *light, t_cam *c)
+{
+	t_object *head;
 
 	head = NULL;
-	line = NULL;
-	while ((res = get_next_line(fd, &line)) > 0)
-	{
-		if (read_node(&head, line) < 0)
-		{
-			ft_putendl("[ ERROR ]: Error in config file!");
-			free(line);
-			free_list(&head);
-			return (NULL);
-		}
-		free(line);
-	}
+	if (read_cam(fd, c) == -1)
+		input_error(&head, NULL, "Camera info not at top!");
+	if (read_light(fd, light) == -1)
+		input_error(&head, NULL, "Light must be at 2nd position!");
+	if (read_nodes(fd, &head) == -1)
+		input_error(&head, NULL, "Invalid arguments!");
 	return (head);
 }

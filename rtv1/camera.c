@@ -20,7 +20,6 @@ t_vector	to_ndc(int x, int y, int w, int h)
 	v.x /= w;
 	v.y = y + 0.5;
 	v.y /= h;
-	v.z = -1;
 	return (v);
 }
 
@@ -30,7 +29,6 @@ t_vector	to_screen(t_vector ndc, double ar, double fov)
 
 	v.x = (2 * ndc.x - 1) * ar * tan(fov / 2);
 	v.y = (1 - 2 * ndc.y) * tan(fov / 2);
-	v.z = ndc.z;
 	return (v);
 }
 
@@ -41,6 +39,7 @@ t_vector	cam_ray(int x, int y, t_m_img img, t_cam c)
 
 	ndc = to_ndc(x, y, img.w, img.h);
 	v = to_screen(ndc, img.w / img.h, c.fov);
+	v.z = c.dir.z;
 	return (v);
 }
 
@@ -57,7 +56,7 @@ void		trace(t_holder s)
 		j = 0;
 		while (j < s.m.w)
 		{
-			ray = vect_norm(cam_ray(j, i, s.m, s.c));
+			ray = vect_norm(vect_sub(cam_ray(j, i, s.m, s.c), s.c.pos));
 			rcb.x = shortest_dist(s.head, s.c.pos, ray, &rcb.y);
 			if (rcb.x > 0)
 			{

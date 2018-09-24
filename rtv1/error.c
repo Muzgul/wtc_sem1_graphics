@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmacdona <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/01 11:33:18 by mmacdona          #+#    #+#             */
-/*   Updated: 2018/09/01 11:33:20 by mmacdona         ###   ########.fr       */
+/*   Created: 2018/09/24 11:16:49 by mmacdona          #+#    #+#             */
+/*   Updated: 2018/09/24 11:16:50 by mmacdona         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	free_arrstr(char **arr)
+void    input_error(t_object **head, char **ex, char *msg)
 {
-	int i;
-
-	i = 0;
-	if (*arr == NULL || arr == NULL)
-	while (arr[i] != NULL)
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
-void	free_list(t_object **head)
-{
-	if (*head != NULL)
-	{
-		free_list(&(*head)->next);
-		free(*head);
-		*head = NULL;
-	}
+	if (ex != NULL)
+		free_arrstr(ex);
+	if (head != NULL && *head != NULL)
+		free_list(head);
+	ft_putstr("[ Error! ]: ");
+	ft_putendl(msg);
+	exit(0);
 }

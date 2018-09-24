@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmacdona <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/01 11:33:18 by mmacdona          #+#    #+#             */
-/*   Updated: 2018/09/01 11:33:20 by mmacdona         ###   ########.fr       */
+/*   Created: 2018/09/24 11:02:17 by mmacdona          #+#    #+#             */
+/*   Updated: 2018/09/24 11:02:19 by mmacdona         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-void	free_arrstr(char **arr)
+void		add_node(t_object **head, t_object *new)
 {
-	int i;
-
-	i = 0;
-	if (*arr == NULL || arr == NULL)
-	while (arr[i] != NULL)
+	if (new != NULL)
 	{
-		free(arr[i]);
-		i++;
+		new->next = *head;
+		*head = new;
 	}
-	free(arr);
 }
 
-void	free_list(t_object **head)
+t_object	*new_node(void)
 {
-	if (*head != NULL)
-	{
-		free_list(&(*head)->next);
-		free(*head);
-		*head = NULL;
-	}
+	t_object	*n;
+
+	n = (t_object *)malloc(sizeof(t_object));
+	n->type = NULL;
+	n->colour = 0;
+	n->size = vect_get(0, 0, 0);
+	n->origin = vect_get(0, 0, 0);
+	n->n = vect_get(0, 0, 0);
+	n->next = NULL;
+	return (n);
 }
