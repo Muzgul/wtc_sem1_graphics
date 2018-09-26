@@ -18,6 +18,7 @@ void	free_arrstr(char **arr)
 
 	i = 0;
 	if (*arr == NULL || arr == NULL)
+		return ;
 	while (arr[i] != NULL)
 	{
 		free(arr[i]);

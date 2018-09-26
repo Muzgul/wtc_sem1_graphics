@@ -12,37 +12,7 @@
 
 #include "rtv1.h"
 
-int			fetch_vect(char *line, t_vector *v)
-{
-	char	**basic;
-	char	**values;
-	int		ret;
-
-	ret = -1;
-	basic = ft_strsplit(line, '=');
-	if (check_ex(basic) != 2)
-		return (-1);
-	values = ft_strsplit(basic[1], ',');
-	if (check_ex(values) == 1)
-	{
-		v->x = ft_atoi(values[0]);
-		v->y = 0;
-		v->z = 0;
-		ret = 1;
-	}
-	if (check_ex(values) == 3)
-	{
-		v->x = ft_atoi(values[0]);
-		v->y = ft_atoi(values[1]);
-		v->z = ft_atoi(values[2]);
-		ret = 3;
-	}
-	free_arrstr(basic);
-	free_arrstr(values);
-	return (ret);
-}
-
-int		fetch_name(char **ex, t_object **head)
+int			fetch_name(char **ex, t_object **head)
 {
 	if (check_name(ex[0]) == -1)
 		input_error(head, ex, "Invalid object!");
@@ -50,36 +20,34 @@ int		fetch_name(char **ex, t_object **head)
 	return (0);
 }
 
-int			fetch_origin(char **ex, t_object **head)
+int			fetch_origin(char **ex, t_object **head, t_cam c)
 {
 	if (ft_strncmp(ex[1], "Origin", 6) != 0)
 		input_error(head, ex, "Invalid property!");
 	if (fetch_vect(ex[1], &(*head)->origin) < 3)
 		input_error(head, ex, "Invalid origin!");
+	(*head)->origin = vect_sub((*head)->origin, c.pos);
 	return (0);
 }
 
 int			fetch_norm(char **ex, t_object **head)
 {
-	t_mat4		m;
-	t_vector	v;
+	t_vector	m;
 
 	if (ft_strncmp(ex[2], "Rotation", 8) != 0)
 		input_error(head, ex, "Invalid property!");
 	if (fetch_vect(ex[2], &(*head)->n) < 3)
 		input_error(head, ex, "Invalid rotation!");
-	v = vect_get(0, 1, 0);
-	if ((*head)->n.x != 0)
-		m = add_xrotate((*head)->n.x);
-	if ((*head)->n.y != 0)
-		m = add_yrotate((*head)->n.y);
+	m = vect_get(0, 1, 0);
 	if ((*head)->n.z != 0)
-		m = add_zrotate((*head)->n.z);
-	if ((*head)->n.x != 0 || (*head)->n.y != 0 || (*head)->n.z != 0)
-		v = apply_mat(v, m);
+		m = add_zrotate(m, (*head)->n.z);
+	if ((*head)->n.x != 0)
+		m = add_xrotate(m, (*head)->n.x);
+	if ((*head)->n.y != 0)
+		m = add_yrotate(m, (*head)->n.y);
 	if (ft_strcmp((*head)->type, "Cone") == 0)
-		v = vect_mult(v, -1);
-	(*head)->n = v;
+		m = vect_mult(m, -1);
+	(*head)->n = m;
 	return (0);
 }
 

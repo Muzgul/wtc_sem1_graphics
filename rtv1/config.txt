@@ -1,3 +1,4 @@
 Camera;Origin=0,0,0;Direction=0,0,-1
-Light;Origin=10,0,0
-Cylinder;Origin=0,0,-10;Rotation=0,0,0;Size=2;Colour=red
+Light;Origin=0,10,-20;Brightness=10
+Plane;Origin=0,-5,0;Rotation=0,0,0;Size=0;Colour=blue
+Cone;Origin=0,0,-20;Rotation=0,0,0;Size=0,2,45;Colour=blue

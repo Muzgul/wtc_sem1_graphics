@@ -39,8 +39,20 @@ t_vector	cam_ray(int x, int y, t_m_img img, t_cam c)
 
 	ndc = to_ndc(x, y, img.w, img.h);
 	v = to_screen(ndc, img.w / img.h, c.fov);
-	v.z = c.dir.z;
+	v.z = -1;
 	return (v);
+}
+
+t_vector	cam_trans(t_cam c, t_vector ray)
+{
+	if (c.dir.z != 0 && c.dir.z != -1)
+		ray = add_yrotate(ray, 180);
+	if (c.dir.x != 0)
+		ray = add_yrotate(ray, 90 * (c.dir.x / fabs(c.dir.x)));
+	if (c.dir.y != 0)
+		ray = add_xrotate(ray, -90 * (c.dir.y / fabs(c.dir.y)));
+	ray = vect_norm(ray);
+	return (ray);
 }
 
 void		trace(t_holder s)
@@ -56,15 +68,15 @@ void		trace(t_holder s)
 		j = 0;
 		while (j < s.m.w)
 		{
-			ray = vect_norm(vect_sub(cam_ray(j, i, s.m, s.c), s.c.pos));
+			ray = cam_trans(s.c, vect_norm(cam_ray(j, i, s.m, s.c)));
 			rcb.x = shortest_dist(s.head, s.c.pos, ray, &rcb.y);
 			if (rcb.x > 0)
 			{
-				rcb.z = light_intensity(s.head, s.light,
+				rcb.z = light_intensity(s.head, s.light.pos,
 					vect_mult(ray, rcb.x - 0.001));
-				if (rcb.z >= 0)
+				if (rcb.z > (double)0)
 					mlx_pixel_put(s.mlx_ptr, s.mlx_win, j, i,
-						adjust_colour(rcb.y, rcb.z, 10));
+						adjust_colour(rcb.y, rcb.z, s.light.brightness));
 			}
 			j++;
 		}

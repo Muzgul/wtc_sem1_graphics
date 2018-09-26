@@ -16,3 +16,8 @@ double		angl(double angle)
 {
 	return (angle * (M_PI / 180));
 }
+
+double		rev_angl(double angle)
+{
+	return (angle / (M_PI / 180));
+}

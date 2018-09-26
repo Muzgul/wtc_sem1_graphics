@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-int     check_name(char *line)
+int	check_name(char *line)
 {
 	if (ft_strcmp(line, "Camera") == 0)
 		return (1);

@@ -22,7 +22,7 @@ double	shortest_dist(t_object *obj, t_vector ro, t_vector rd, double *colour)
 	node = obj;
 	while (node != NULL)
 	{
-		if ((res = test_object(node, point_get(ro, rd))) > (double)0.0001)
+		if ((res = test_object(node, point_get(ro, rd))) > (double)0)
 		{
 			if (shortest == -1 || res < shortest)
 			{

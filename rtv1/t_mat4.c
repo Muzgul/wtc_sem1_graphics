@@ -12,44 +12,68 @@
 
 #include "rtv1.h"
 
-t_mat4		add_zrotate(float angle)
+t_mat4			mat_combine(t_mat4 old, t_mat4 new)
 {
-	t_mat4 old;
+	int i;
 
-	angle = angl(angle);
-	old = get_mat4();
-	old.a[0] = cos(angle);
-	old.a[1] = -1 * (sin(angle));
-	old.b[0] = sin(angle);
-	old.b[1] = cos(angle);
-	old.c[2] = 1;
+	i = 0;
+	while (i < 4)
+	{
+		if (old.a[i] != (double)0 && new.a[i] != (double)0)
+			old.a[i] *= new.a[i];
+		else
+			old.a[i] += new.a[i];
+		if (old.b[i] != (double)0 && new.b[i] != (double)0)
+			old.b[i] *= new.b[i];
+		else
+			old.b[i] += new.b[i];
+		if (old.c[i] != (double)0 && new.c[i] != (double)0)
+			old.c[i] *= new.c[i];
+		else
+			old.c[i] += new.c[i];
+		i++;
+	}
 	return (old);
 }
 
-t_mat4		add_xrotate(float angle)
+t_vector		add_zrotate(t_vector old, float angle)
 {
-	t_mat4 old;
+	t_mat4		new;
 
 	angle = angl(angle);
-	old = get_mat4();
-	old.a[0] = 1;
-	old.b[1] = cos(angle);
-	old.b[2] = -1 * (sin(angle));
-	old.c[1] = sin(angle);
-	old.c[2] = cos(angle);
-	return (old);
+	new = get_mat4();
+	new.a[0] = cos(angle);
+	new.a[1] = -1 * (sin(angle));
+	new.b[0] = sin(angle);
+	new.b[1] = cos(angle);
+	new.c[2] = 1;
+	return (apply_mat(old, new));
 }
 
-t_mat4		add_yrotate(float angle)
+t_vector		add_xrotate(t_vector old, float angle)
 {
-	t_mat4 old;
+	t_mat4		new;
 
 	angle = angl(angle);
-	old = get_mat4();
-	old.a[0] = cos(angle);
-	old.a[2] = sin(angle);
-	old.b[1] = 1;
-	old.c[0] = -1 * sin(angle);
-	old.c[2] = cos(angle);
-	return (old);
+	new = get_mat4();
+	new.a[0] = 1;
+	new.b[1] = cos(angle);
+	new.b[2] = -1 * (sin(angle));
+	new.c[1] = sin(angle);
+	new.c[2] = cos(angle);
+	return (apply_mat(old, new));
+}
+
+t_vector		add_yrotate(t_vector old, float angle)
+{
+	t_mat4		new;
+
+	angle = angl(angle);
+	new = get_mat4();
+	new.a[0] = cos(angle);
+	new.a[2] = sin(angle);
+	new.b[1] = 1;
+	new.c[0] = -1 * sin(angle);
+	new.c[2] = cos(angle);
+	return (apply_mat(old, new));
 }

@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-void    input_error(t_object **head, char **ex, char *msg)
+void	input_error(t_object **head, char **ex, char *msg)
 {
 	if (ex != NULL)
 		free_arrstr(ex);

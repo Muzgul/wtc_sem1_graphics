@@ -66,6 +66,12 @@ typedef struct		s_point
 	t_vector		d;
 }					t_point;
 
+typedef struct		s_light
+{
+	t_vector		pos;
+	int				brightness;
+}					t_light;
+
 typedef struct		s_holder
 {
 	void			*mlx_ptr;
@@ -73,7 +79,7 @@ typedef struct		s_holder
 	t_m_img			m;
 	t_cam			c;
 	t_object		*head;
-	t_vector		light;
+	t_light			light;
 }					t_holder;
 
 //misc
@@ -82,6 +88,7 @@ int					check_ex(char **ex);
 t_point				point_get(t_vector o, t_vector d);
 //angle
 double				angl(double angle);
+double				rev_angl(double angle);
 //vector
 t_vector			vect_get(float x, float y, float z);
 t_vector			vect_mult(t_vector v, double s);
@@ -105,13 +112,13 @@ void				free_arrstr(char **arr);
 void				free_list(t_object **head);
 //input_fetch
 int					fetch_name(char **ex, t_object **head);
-int					fetch_origin(char **ex, t_object **head);
+int					fetch_origin(char **ex, t_object **head, t_cam c);
 int					fetch_size(char **ex, t_object **head);
 int					fetch_colour(char **ex, t_object **head);
 int					fetch_norm(char **ex, t_object **head);
 int					fetch_vect(char *line, t_vector *v);
 //read
-t_object			*read_file(int fd, t_vector *light, t_cam *c);
+t_object			*read_file(int fd, t_light *light, t_cam *c);
 //output
 void				print_list(t_object *head);
 void				print_vector(t_vector v);
@@ -119,9 +126,9 @@ void				print_vector(t_vector v);
 t_mat4				get_mat4(void);
 t_mat4				mult_mat4(t_mat4 f, t_mat4 s);
 t_vector			apply_mat(t_vector og, t_mat4 m);
-t_mat4				add_zrotate(float angle);
-t_mat4				add_xrotate(float angle);
-t_mat4				add_yrotate(float angle);
+t_vector			add_zrotate(t_vector old, float angle);
+t_vector			add_xrotate(t_vector old, float angle);
+t_vector			add_yrotate(t_vector old, float angle);
 //collision
 double				shortest_dist(t_object *head, t_vector ro, t_vector rd, double *colour);
 double				light_intensity(t_object *obj, t_vector light, t_vector ray);

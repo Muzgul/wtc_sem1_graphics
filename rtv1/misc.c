@@ -74,3 +74,31 @@ t_vector	vect_norm(t_vector v)
 	n = vect_get(v.x / dist, v.y / dist, v.z / dist);
 	return (n);
 }
+
+int			fetch_vect(char *line, t_vector *v)
+{
+	char	**basic;
+	char	**values;
+	int		ret;
+
+	basic = ft_strsplit(line, '=');
+	if (check_ex(basic) != 2)
+		return (-1);
+	values = ft_strsplit(basic[1], ',');
+	ret = check_ex(values);
+	if (ret == 1 || ret == 3)
+		v->x = ft_atoi(values[0]);
+	if (ret == 1)
+	{
+		v->y = 0;
+		v->z = 0;
+	}
+	if (ret == 3)
+	{
+		v->y = ft_atoi(values[1]);
+		v->z = ft_atoi(values[2]);
+	}
+	free_arrstr(basic);
+	free_arrstr(values);
+	return (ret);
+}
